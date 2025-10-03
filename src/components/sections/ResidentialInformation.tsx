@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { useFormContext } from '@/components/FormProvider'
 import { useCreditAppStore } from '@/lib/store'
 import { residenceTypes } from '@/lib/schemas'
+import { getFieldError } from '@/lib/formHelpers'
 import { Plus, RotateCcw, Trash2 } from 'lucide-react'
 
 interface ResidentialInformationProps {
@@ -72,9 +73,9 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                     {...form.register(`${residentialPath}.years`)}
                     placeholder="Years at address"
                   />
-                  {form.formState.errors.buyerInfo?.residentialInfo?.years && (
+                  {getFieldError(form.formState.errors, `${residentialPath}.years`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.residentialInfo.years.message}
+                      {getFieldError(form.formState.errors, `${residentialPath}.years`)}
                     </p>
                   )}
                 </div>
@@ -159,6 +160,11 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                       {...form.register(`${previousResidencesPath}.${index}.address`)}
                       placeholder="Enter street address"
                     />
+                    {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.address`) && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.address`)}
+                      </p>
+                    )}
                   </div>
                   <div className='flex flex-col md:flex-row gap-4'>
                     <div className='w-full md:w-[25%]'>
@@ -187,6 +193,11 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                           <RotateCcw className="h-4 w-4 text-gray-600" />
                         </button>
                       </div>
+                      {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.zipCode`) && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.zipCode`)}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div>
@@ -195,6 +206,11 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                       {...form.register(`${previousResidencesPath}.${index}.city`)}
                       placeholder="City"
                     />
+                    {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.city`) && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.city`)}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor={`${previousResidencesPath}.${index}.state`}>State *</Label>
@@ -202,6 +218,11 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                       {...form.register(`${previousResidencesPath}.${index}.state`)}
                       placeholder="State"
                     />
+                    {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.state`) && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.state`)}
+                      </p>
+                    )}
                   </div>
                 </div>
 
@@ -212,6 +233,11 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                       {...form.register(`${previousResidencesPath}.${index}.years`)}
                       placeholder="Years"
                     />
+                    {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.years`) && (
+                      <p className="text-sm text-red-600 mt-1">
+                        {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.years`)}
+                      </p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor={`${previousResidencesPath}.${index}.months`}>Months</Label>

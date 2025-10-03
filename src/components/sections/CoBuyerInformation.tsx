@@ -11,6 +11,7 @@ import { relationshipTypes } from '@/lib/schemas'
 import { ClientInformation } from './ClientInformation'
 import { ResidentialInformation } from './ResidentialInformation'
 import { EmploymentInformation } from './EmploymentInformation'
+import { getFieldError } from '@/lib/formHelpers'
 
 export function CoBuyerInformation() {
   const { form } = useFormContext()
@@ -59,6 +60,11 @@ export function CoBuyerInformation() {
                     ))}
                   </SelectContent>
                 </Select>
+                {getFieldError(form.formState.errors, `coBuyerInfo.relationshipType`) && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {getFieldError(form.formState.errors, `coBuyerInfo.relationshipType`)}
+                  </p>
+                )}
               </div>
             )}
           </div>

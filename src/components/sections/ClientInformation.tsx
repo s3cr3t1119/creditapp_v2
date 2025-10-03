@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useFormContext } from '@/components/FormProvider'
 import { useCreditAppStore } from '@/lib/store'
 import { stateList } from '@/lib/schemas'
+import { getFieldError } from '@/lib/formHelpers'
 import { RotateCcw } from 'lucide-react'
 
 interface ClientInformationProps {
@@ -42,9 +43,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.firstName`)}
                 placeholder="Enter first name"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.firstName && (
+              {getFieldError(form.formState.errors, `${basePath}.firstName`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.firstName.message}
+                  {getFieldError(form.formState.errors, `${basePath}.firstName`)}
                 </p>
               )}
             </div>
@@ -56,9 +57,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.lastName`)}
                 placeholder="Enter last name"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.lastName && (
+              {getFieldError(form.formState.errors, `${basePath}.lastName`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.lastName.message}
+                  {getFieldError(form.formState.errors, `${basePath}.lastName`)}
                 </p>
               )}
             </div>
@@ -72,9 +73,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.address`)}
                 placeholder="Enter street address"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.address && (
+              {getFieldError(form.formState.errors, `${basePath}.address`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.address.message}
+                  {getFieldError(form.formState.errors, `${basePath}.address`)}
                 </p>
               )}
             </div>
@@ -108,9 +109,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                     <RotateCcw className="h-4 w-4 text-gray-600" />
                   </button>
                 </div>
-                {form.formState.errors.buyerInfo?.clientInfo?.zipCode && (
+                {getFieldError(form.formState.errors, `${basePath}.zipCode`) && (
                   <p className="text-sm text-red-600 mt-1">
-                    {form.formState.errors.buyerInfo.clientInfo.zipCode.message}
+                    {getFieldError(form.formState.errors, `${basePath}.zipCode`)}
                   </p>
                 )}
               </div>
@@ -122,9 +123,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.city`)}
                 placeholder="City"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.city && (
+              {getFieldError(form.formState.errors, `${basePath}.city`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.city.message}
+                  {getFieldError(form.formState.errors, `${basePath}.city`)}
                 </p>
               )}
             </div>
@@ -145,9 +146,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                   ))}
                 </SelectContent>
               </Select>
-              {form.formState.errors.buyerInfo?.clientInfo?.state && (
+              {getFieldError(form.formState.errors, `${basePath}.state`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.state.message}
+                  {getFieldError(form.formState.errors, `${basePath}.state`)}
                 </p>
               )}
             </div>
@@ -162,9 +163,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.email`)}
                 placeholder="Enter email address"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.email && (
+              {getFieldError(form.formState.errors, `${basePath}.email`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.email.message}
+                  {getFieldError(form.formState.errors, `${basePath}.email`)}
                 </p>
               )}
             </div>
@@ -176,9 +177,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.homePhone`)}
                 placeholder="Home Phone"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.homePhone && (
+              {getFieldError(form.formState.errors, `${basePath}.homePhone`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.homePhone.message}
+                  {getFieldError(form.formState.errors, `${basePath}.homePhone`)}
                 </p>
               )}
             </div>
@@ -190,9 +191,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.cellPhone`)}
                 placeholder="Cell Phone"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.cellPhone && (
+              {getFieldError(form.formState.errors, `${basePath}.cellPhone`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.cellPhone.message}
+                  {getFieldError(form.formState.errors, `${basePath}.cellPhone`)}
                 </p>
               )}
             </div>
@@ -204,9 +205,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 type="date"
                 {...form.register(`${basePath}.dateOfBirth`)}
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.dateOfBirth && (
+              {getFieldError(form.formState.errors, `${basePath}.dateOfBirth`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.dateOfBirth.message}
+                  {getFieldError(form.formState.errors, `${basePath}.dateOfBirth`)}
                 </p>
               )}
             </div>
@@ -221,9 +222,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                 {...form.register(`${basePath}.ssn`)}
                 placeholder="XXX-XX-XXXX"
               />
-              {form.formState.errors.buyerInfo?.clientInfo?.ssn && (
+              {getFieldError(form.formState.errors, `${basePath}.ssn`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.clientInfo.ssn.message}
+                  {getFieldError(form.formState.errors, `${basePath}.ssn`)}
                 </p>
               )}
             </div>
@@ -238,9 +239,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                     {...form.register(`${basePath}.driverLicenseNo`)}
                     placeholder="Driver License No"
                   />
-                  {form.formState.errors.buyerInfo?.clientInfo?.driverLicenseNo && (
+                  {getFieldError(form.formState.errors, `${basePath}.driverLicenseNo`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.clientInfo.driverLicenseNo.message}
+                      {getFieldError(form.formState.errors, `${basePath}.driverLicenseNo`)}
                     </p>
                   )}
                 </div>
@@ -262,9 +263,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                       ))}
                     </SelectContent>
                   </Select>
-                  {form.formState.errors.buyerInfo?.clientInfo?.driverLicenseState && (
+                  {getFieldError(form.formState.errors, `${basePath}.driverLicenseState`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.clientInfo.driverLicenseState.message}
+                      {getFieldError(form.formState.errors, `${basePath}.driverLicenseState`)}
                     </p>
                   )}
                 </div>
@@ -276,9 +277,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                     type="date"
                     {...form.register(`${basePath}.driverLicenseExpiration`)}
                   />
-                  {form.formState.errors.buyerInfo?.clientInfo?.driverLicenseExpiration && (
+                  {getFieldError(form.formState.errors, `${basePath}.driverLicenseExpiration`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.clientInfo.driverLicenseExpiration.message}
+                      {getFieldError(form.formState.errors, `${basePath}.driverLicenseExpiration`)}
                     </p>
                   )}
                 </div>

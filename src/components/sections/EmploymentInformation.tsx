@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { useFormContext } from '@/components/FormProvider'
 import { useCreditAppStore } from '@/lib/store'
 import { employmentTypes } from '@/lib/schemas'
+import { getFieldError } from '@/lib/formHelpers'
 import { Plus, RotateCcw, Trash2 } from 'lucide-react'
 
 interface EmploymentInformationProps {
@@ -74,9 +75,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                 {...form.register(`${employmentPath}.employerName`)}
                 placeholder="Enter employer name"
               />
-              {form.formState.errors.buyerInfo?.employmentInfo?.employerName && (
+              {getFieldError(form.formState.errors, `${employmentPath}.employerName`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.employmentInfo.employerName.message}
+                  {getFieldError(form.formState.errors, `${employmentPath}.employerName`)}
                 </p>
               )}
             </div>
@@ -88,9 +89,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                 {...form.register(`${employmentPath}.title`)}
                 placeholder="Enter job title"
               />
-              {form.formState.errors.buyerInfo?.employmentInfo?.title && (
+              {getFieldError(form.formState.errors, `${employmentPath}.title`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.employmentInfo.title.message}
+                  {getFieldError(form.formState.errors, `${employmentPath}.title`)}
                 </p>
               )}
             </div>
@@ -102,9 +103,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                 {...form.register(`${employmentPath}.businessPhone`)}
                 placeholder="Business phone"
               />
-              {form.formState.errors.buyerInfo?.employmentInfo?.businessPhone && (
+              {getFieldError(form.formState.errors, `${employmentPath}.businessPhone`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.employmentInfo.businessPhone.message}
+                  {getFieldError(form.formState.errors, `${employmentPath}.businessPhone`)}
                 </p>
               )}
             </div>
@@ -118,9 +119,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                 {...form.register(`${employmentPath}.grossMonthlySalary`)}
                 placeholder="Monthly salary"
               />
-              {form.formState.errors.buyerInfo?.employmentInfo?.grossMonthlySalary && (
+              {getFieldError(form.formState.errors, `${employmentPath}.grossMonthlySalary`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.employmentInfo.grossMonthlySalary.message}
+                  {getFieldError(form.formState.errors, `${employmentPath}.grossMonthlySalary`)}
                 </p>
               )}
             </div>
@@ -134,9 +135,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${employmentPath}.years`)}
                     placeholder="Years"
                   />
-                  {form.formState.errors.buyerInfo?.employmentInfo?.years && (
+                  {getFieldError(form.formState.errors, `${employmentPath}.years`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.employmentInfo.years.message}
+                      {getFieldError(form.formState.errors, `${employmentPath}.years`)}
                     </p>
                   )}
                 </div>
@@ -168,9 +169,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                   ))}
                 </SelectContent>
               </Select>
-              {form.formState.errors.buyerInfo?.employmentInfo?.employmentType && (
+              {getFieldError(form.formState.errors, `${employmentPath}.employmentType`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.buyerInfo.employmentInfo.employmentType.message}
+                  {getFieldError(form.formState.errors, `${employmentPath}.employmentType`)}
                 </p>
               )}
             </div>
@@ -197,8 +198,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
           </div>
 
           {/* Employer Address */}
-          {/* {config.employerAddress && ( */}
-          {true && (
+          {config.employerAddress && (
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
@@ -208,9 +208,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${employmentPath}.employerStreet`)}
                     placeholder="Employer street address"
                   />
-                  {form.formState.errors.buyerInfo?.employmentInfo?.employerStreet && (
+                  {getFieldError(form.formState.errors, `${employmentPath}.employerStreet`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.employmentInfo.employerStreet.message}
+                      {getFieldError(form.formState.errors, `${employmentPath}.employerStreet`)}
                     </p>
                   )}
                 </div>
@@ -235,9 +235,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                       <RotateCcw className="h-4 w-4 text-gray-600" />
                     </button>
                   </div>
-                  {form.formState.errors.buyerInfo?.employmentInfo?.employerZip && (
+                  {getFieldError(form.formState.errors, `${employmentPath}.employerZip`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.employmentInfo.employerZip.message}
+                      {getFieldError(form.formState.errors, `${employmentPath}.employerZip`)}
                     </p>
                   )}
                 </div>
@@ -249,9 +249,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${employmentPath}.employerCity`)}
                     placeholder="City"
                   />
-                  {form.formState.errors.buyerInfo?.employmentInfo?.employerCity && (
+                  {getFieldError(form.formState.errors, `${employmentPath}.employerCity`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.employmentInfo.employerCity.message}
+                      {getFieldError(form.formState.errors, `${employmentPath}.employerCity`)}
                     </p>
                   )}
                 </div>
@@ -262,9 +262,9 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${employmentPath}.employerState`)}
                     placeholder="State"
                   />
-                  {form.formState.errors.buyerInfo?.employmentInfo?.employerState && (
+                  {getFieldError(form.formState.errors, `${employmentPath}.employerState`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {form.formState.errors.buyerInfo.employmentInfo.employerState.message}
+                      {getFieldError(form.formState.errors, `${employmentPath}.employerState`)}
                     </p>
                   )}
                 </div>
@@ -312,6 +312,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${previousEmploymentsPath}.${index}.employerName`)}
                     placeholder="Enter employer name"
                   />
+                  {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerName`) && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerName`)}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -320,6 +325,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${previousEmploymentsPath}.${index}.title`)}
                     placeholder="Enter job title"
                   />
+                  {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.title`) && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.title`)}
+                    </p>
+                  )}
                 </div>
                 <div>
                   <Label htmlFor={`${previousEmploymentsPath}.${index}.businessPhone`}>Business Phone *</Label>
@@ -327,6 +337,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${previousEmploymentsPath}.${index}.businessPhone`)}
                     placeholder="Business phone"
                   />
+                  {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.businessPhone`) && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.businessPhone`)}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -337,6 +352,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                     {...form.register(`${previousEmploymentsPath}.${index}.grossMonthlySalary`)}
                     placeholder="Monthly salary"
                   />
+                  {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.grossMonthlySalary`) && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.grossMonthlySalary`)}
+                    </p>
+                  )}
                 </div>
 
                 <div>
@@ -347,6 +367,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                         {...form.register(`${previousEmploymentsPath}.${index}.years`)}
                         placeholder="Years"
                       />
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.years`) && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.years`)}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor={`${previousEmploymentsPath}.${index}.months`}>Months</Label>
@@ -375,6 +400,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                       ))}
                     </SelectContent>
                   </Select>
+                  {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employmentType`) && (
+                    <p className="text-sm text-red-600 mt-1">
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employmentType`)}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -389,6 +419,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                         {...form.register(`${previousEmploymentsPath}.${index}.employerStreet`)}
                         placeholder="Employer street address"
                       />
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerStreet`) && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerStreet`)}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -410,6 +445,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                           <RotateCcw className="h-4 w-4 text-gray-600" />
                         </button>
                       </div>
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerZip`) && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerZip`)}
+                        </p>
+                      )}
                     </div>
                     <div>
                       <Label htmlFor={`${previousEmploymentsPath}.${index}.employerCity`}>Employer City *</Label>
@@ -417,6 +457,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                         {...form.register(`${previousEmploymentsPath}.${index}.employerCity`)}
                         placeholder="City"
                       />
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerCity`) && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerCity`)}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -425,6 +470,11 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                         {...form.register(`${previousEmploymentsPath}.${index}.employerState`)}
                         placeholder="State"
                       />
+                      {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerState`) && (
+                        <p className="text-sm text-red-600 mt-1">
+                          {getFieldError(form.formState.errors, `${previousEmploymentsPath}.${index}.employerState`)}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
