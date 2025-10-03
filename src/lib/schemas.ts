@@ -126,10 +126,10 @@ export const creditApplicationSchema = z.object({
 })
 
 // Dynamic schema generator based on configuration
-export function createDynamicCreditApplicationSchema(config: any) {
+export function createDynamicCreditApplicationSchema(config: any, hasCoBuyer: boolean = false, values: any) {
   // Base client info schema
   let clientInfo = personalInfoSchema.merge(addressSchema).merge(contactInfoSchema)
-  
+
   // Add driver license fields if enabled
   if (config.driverLicense) {
     clientInfo = clientInfo.merge(driverLicenseSchema)
@@ -143,11 +143,7 @@ export function createDynamicCreditApplicationSchema(config: any) {
     grossMonthlySalary: z.string().min(1, 'Gross monthly salary is required'),
     years: z.string().min(1, 'Years is required'),
     months: z.string().default('0'),
-    employmentType: z.string().min(1, 'Employment type is required')
-  })
-
-  // Add optional fields
-  employmentInfo = employmentInfo.extend({
+    employmentType: z.string().min(1, 'Employment type is required'),
     otherIncome: z.string().optional(),
     otherIncomeSource: z.string().optional()
   })
@@ -173,11 +169,7 @@ export function createDynamicCreditApplicationSchema(config: any) {
   // Base vehicle info schema
   let vehicleInfo = z.object({
     vehicle_title: z.string().min(1, 'Vehicle selection is required'),
-    down_payment: z.string().min(1, 'Down payment is required')
-  })
-
-  // Add optional vehicle fields
-  vehicleInfo = vehicleInfo.extend({
+    down_payment: z.string().min(1, 'Down payment is required'),
     sales_agent: z.string().optional(),
     trade_year: z.string().optional(),
     trade_make: z.string().optional(),
@@ -188,21 +180,21 @@ export function createDynamicCreditApplicationSchema(config: any) {
   const buyerInfo = z.object({
     clientInfo,
     residentialInfo,
-    previousResidences: z.array(previousResidenceSchema).default([]),
+    previousResidences: values.buyerInfo?.previousResidences.length > 0 ? z.array(previousResidenceSchema).default([]) : z.array(previousResidenceSchema).optional(),
     employmentInfo,
-    previousEmployments: z.array(previousEmploymentSchema).default([])
+    previousEmployments: values.buyerInfo?.previousEmployments.length > 0 ? z.array(previousEmploymentSchema).default([]) : z.array(previousEmploymentSchema).optional()
   })
 
-  // Co-buyer info schema (same structure as buyer)
-  const coBuyerInfo = z.object({
+  // Co-buyer info schema - conditional validation based on hasCoBuyer
+  const coBuyerInfo = hasCoBuyer ? z.object({
     hasCoBuyer: z.boolean().default(false),
-    relationshipType: z.string().optional(),
-    clientInfo: clientInfo.optional(),
-    residentialInfo: residentialInfo.optional(),
-    previousResidences: z.array(previousResidenceSchema).default([]),
-    employmentInfo: employmentInfo.optional(),
-    previousEmployments: z.array(previousEmploymentSchema).default([])
-  })
+    relationshipType: z.string().min(1, 'Relationship type is required'),
+    clientInfo: clientInfo,
+    residentialInfo: residentialInfo,
+    previousResidences: values.coBuyerInfo?.previousResidences.length > 0 ? z.array(previousResidenceSchema).default([]) : z.array(previousResidenceSchema).optional(),
+    employmentInfo: employmentInfo,
+    previousEmployments: values.coBuyerInfo?.previousEmployments.length > 0 ? z.array(previousEmploymentSchema).default([]) : z.array(previousEmploymentSchema).optional()
+  }) : z.object({})
 
   return z.object({
     vehicleInfo,

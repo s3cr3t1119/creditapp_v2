@@ -26,10 +26,8 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
   const previousResidences = form.watch(previousResidencesPath as any) || []
 
   const addPreviousResidence = () => {
-    const currentResidences = form.getValues(previousResidencesPath as any) || [];
     if (previousResidences.length == 0) {
       form.setValue(previousResidencesPath as any, [
-        ...currentResidences,
         {
           address: '',
           aptUnit: '',
@@ -43,13 +41,10 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
         }
       ])
     }
-    
   }
 
   const removePreviousResidence = (index: number) => {
-    const currentResidences = form.getValues(previousResidencesPath as any) || []
-    const newResidences = currentResidences.filter((_: any, i: number) => i !== index)
-    form.setValue(previousResidencesPath as any, newResidences)
+    form.setValue(previousResidencesPath as any, [])
   }
 
   return (

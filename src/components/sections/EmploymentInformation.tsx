@@ -48,9 +48,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
   }
 
   const removePreviousEmployment = (index: number) => {
-    const currentEmployments = form.getValues(previousEmploymentsPath as any) || []
-    const newEmployments = currentEmployments.filter((_: any, i: number) => i !== index)
-    form.setValue(previousEmploymentsPath as any, newEmployments)
+    form.setValue(previousEmploymentsPath as any, [])
   }
 
   return (

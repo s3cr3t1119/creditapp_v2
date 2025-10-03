@@ -20,11 +20,16 @@ export function CreditApplicationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { activeTab, setActiveTab, config } = useCreditAppStore()
 
-  // Create dynamic schema based on current configuration
-  const dynamicSchema = createDynamicCreditApplicationSchema(config)
+  // Create dynamic resolver that checks hasCoBuyer at validation time
+  const dynamicResolver = (values: any, context: any, options: any) => {
+    console.log(values);
+    const hasCoBuyer = values?.coBuyerInfo?.hasCoBuyer || false
+    const schema = createDynamicCreditApplicationSchema(config, hasCoBuyer, values)
+    return zodResolver(schema)(values, context, options)
+  }
 
   const form = useForm<any>({
-    resolver: zodResolver(dynamicSchema),
+    resolver: dynamicResolver,
     defaultValues: {
       vehicleInfo: {
         vehicle_title: 'Any Car',
@@ -122,16 +127,13 @@ export function CreditApplicationForm() {
       }
     }
   })
-  console.log(form);
 
-  // Update resolver when config changes
+  // Clear errors when config changes
   useEffect(() => {
-    const newSchema = createDynamicCreditApplicationSchema(config)
-    form.clearErrors() // Clear any validation errors when schema changes
+    form.clearErrors()
   }, [config, form])
 
   const onSubmit = async (data: any) => {
-    console.log(data)
     setIsSubmitting(true)
     try {
       const response = await fetch('/api/submit', {
@@ -152,7 +154,7 @@ export function CreditApplicationForm() {
           alert('Application submitted successfully!')
         }
       } else {
-        throw new Error(result.message || 'Submission failed')
+        alert(result.message || 'Submission failed')
       }
     } catch (error) {
       console.error('Submission error:', error)
@@ -160,6 +162,10 @@ export function CreditApplicationForm() {
     } finally {
       setIsSubmitting(false)
     }
+  }
+
+  if (process.env.NODE_ENV === 'development') {
+    console.log(form.formState.errors);
   }
 
   return (
