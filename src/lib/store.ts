@@ -14,72 +14,72 @@ export interface ClientInfo {
   firstName: string
   lastName: string
   address: string
-  aptUnit: string
-  zipCode: string
+  apt_unit: string
+  zip: string
   city: string
   state: string
   email: string
   homePhone: string
   cellPhone: string
-  dateOfBirth: string
+  dob: string
   ssn: string
-  driverLicenseNo: string
-  driverLicenseState: string
-  driverLicenseExpiration: string
+  dlr_nro: string
+  dlr_state: string
+  dlr_expiration: string
 }
 
 export interface ResidentialInfo {
-  years: string
-  months: string
-  monthlyPayment: string
-  residenceType: string
+  res_years: string
+  res_months: string
+  res_monthly_payment: string
+  residence: string
 }
 
 export interface PreviousResidence {
   address: string
-  aptUnit: string
-  zipCode: string
+  apt_unit: string
+  zip: string
   city: string
   state: string
-  years: string
-  months: string
-  monthlyPayment: string
-  residenceType: string
+  res_years: string
+  res_months: string
+  res_monthly_payment: string
+  residence: string
 }
 
 export interface EmploymentInfo {
-  employerName: string
-  title: string
-  businessPhone: string
-  grossMonthlySalary: string
-  years: string
-  months: string
-  employmentType: string
-  otherIncome: string
-  otherIncomeSource: string
-  employerStreet: string
-  employerZip: string
-  employerCity: string
-  employerState: string
+  employer: string
+  title_employment: string
+  phone_employment: string
+  gross_monthly: string
+  time_company_years: string
+  time_company_months: string
+  type_employment: string
+  aditional_income: string
+  source_addl: string
+  employer_street: string
+  employer_zip: string
+  employer_city: string
+  employer_state: string
 }
 
 export interface PreviousEmployment {
-  employerName: string
-  title: string
-  businessPhone: string
-  grossMonthlySalary: string
-  years: string
-  months: string
-  employmentType: string
-  employerStreet: string
-  employerZip: string
-  employerCity: string
-  employerState: string
+  employer: string
+  title_employment: string
+  phone_employment: string
+  gross_monthly: string
+  time_company_years: string
+  time_company_months: string
+  type_employment: string
+  employer_street: string
+  employer_zip: string
+  employer_city: string
+  employer_state: string
 }
 
 export interface CoBuyerInfo {
-  hasCoBuyer: boolean
-  relationshipType: string
+  has_cobuyer: boolean
+  relationship: string
   clientInfo: ClientInfo
   residentialInfo: ResidentialInfo
   previousResidences: PreviousResidence[]
@@ -159,84 +159,84 @@ const initialState = {
       firstName: '',
       lastName: '',
       address: '',
-      aptUnit: '',
-      zipCode: '',
+      apt_unit: '',
+      zip: '',
       city: '',
       state: '',
       email: '',
       homePhone: '',
       cellPhone: '',
-      dateOfBirth: '',
+      dob: '',
       ssn: '',
-      driverLicenseNo: '',
-      driverLicenseState: '',
-      driverLicenseExpiration: ''
+      dlr_nro: '',
+      dlr_state: '',
+      dlr_expiration: ''
     },
     residentialInfo: {
-      years: '',
-      months: '0',
-      monthlyPayment: '',
-      residenceType: ''
+      res_years: '',
+      res_months: '0',
+      res_monthly_payment: '',
+      residence: ''
     },
     previousResidences: [],
     employmentInfo: {
-      employerName: '',
-      title: '',
-      businessPhone: '',
-      grossMonthlySalary: '',
-      years: '',
-      months: '0',
-      employmentType: '',
-      otherIncome: '',
-      otherIncomeSource: '',
-      employerStreet: '',
-      employerZip: '',
-      employerCity: '',
-      employerState: ''
+      employer: '',
+      title_employment: '',
+      phone_employment: '',
+      gross_monthly: '',
+      time_company_years: '',
+      time_company_months: '0',
+      type_employment: '',
+      aditional_income: '',
+      source_addl: '',
+      employer_street: '',
+      employer_zip: '',
+      employer_city: '',
+      employer_state: ''
     },
     previousEmployments: []
   },
   coBuyerInfo: {
-    hasCoBuyer: false,
-    relationshipType: '',
+    has_cobuyer: false,
+    relationship: '',
     clientInfo: {
       firstName: '',
       lastName: '',
       address: '',
-      aptUnit: '',
-      zipCode: '',
+      apt_unit: '',
+      zip: '',
       city: '',
       state: '',
       email: '',
       homePhone: '',
       cellPhone: '',
-      dateOfBirth: '',
+      dob: '',
       ssn: '',
-      driverLicenseNo: '',
-      driverLicenseState: '',
-      driverLicenseExpiration: ''
+      dlr_nro: '',
+      dlr_state: '',
+      dlr_expiration: ''
     },
     residentialInfo: {
-      years: '',
-      months: '0',
-      monthlyPayment: '',
-      residenceType: ''
+      res_years: '',
+      res_months: '0',
+      res_monthly_payment: '',
+      residence: ''
     },
     previousResidences: [],
     employmentInfo: {
-      employerName: '',
-      title: '',
-      businessPhone: '',
-      grossMonthlySalary: '',
-      years: '',
-      months: '0',
-      employmentType: '',
-      otherIncome: '',
-      otherIncomeSource: '',
-      employerStreet: '',
-      employerZip: '',
-      employerCity: '',
-      employerState: ''
+      employer: '',
+      title_employment: '',
+      phone_employment: '',
+      gross_monthly: '',
+      time_company_years: '',
+      time_company_months: '0',
+      type_employment: '',
+      aditional_income: '',
+      source_addl: '',
+      employer_street: '',
+      employer_zip: '',
+      employer_city: '',
+      employer_state: ''
     },
     previousEmployments: []
   },

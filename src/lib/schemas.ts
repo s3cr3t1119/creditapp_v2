@@ -9,8 +9,8 @@ const zipCodeRegex = /^\d{5}(-\d{4})?$/
 // Base schemas for reusable components
 export const addressSchema = z.object({
   address: z.string().min(1, 'Street address is required'),
-  aptUnit: z.string().optional(),
-  zipCode: z.string().min(1, 'Zip code is required').regex(zipCodeRegex, 'Invalid zip code format'),
+  apt_unit: z.string().optional(),
+  zip: z.string().min(1, 'Zip code is required').regex(zipCodeRegex, 'Invalid zip code format'),
   city: z.string().min(1, 'City is required'),
   state: z.string().min(1, 'State is required')
 })
@@ -24,14 +24,14 @@ export const contactInfoSchema = z.object({
 export const personalInfoSchema = z.object({
   firstName: z.string().min(1, 'First name is required'),
   lastName: z.string().min(1, 'Last name is required'),
-  dateOfBirth: z.string().min(1, 'Date of birth is required'),
+  dob: z.string().min(1, 'Date of birth is required'),
   ssn: z.string().min(1, 'SSN is required').regex(ssnRegex, 'Invalid SSN format')
 })
 
 export const driverLicenseSchema = z.object({
-  driverLicenseNo: z.string().optional(),
-  driverLicenseState: z.string().optional(),
-  driverLicenseExpiration: z.string().optional()
+  dlr_nro: z.string().optional(),
+  dlr_state: z.string().optional(),
+  dlr_expiration: z.string().optional()
 })
 
 // Vehicle Information Schema
@@ -54,57 +54,57 @@ export const clientInfoSchema = z.object({
 
 // Residential Information Schema
 export const residentialInfoSchema = z.object({
-  years: z.string().min(1, 'Years at address is required'),
-  months: z.string().default('0'),
-  monthlyPayment: z.string().optional(),
-  residenceType: z.string().optional()
+  res_years: z.string().min(1, 'Years at address is required'),
+  res_months: z.string().default('0'),
+  res_monthly_payment: z.string().optional(),
+  residence: z.string().optional()
 })
 
 // Previous Residence Schema
 export const previousResidenceSchema = z.object({
   ...addressSchema.shape,
-  years: z.string().min(1, 'Years at address is required'),
-  months: z.string().default('0'),
-  monthlyPayment: z.string().optional(),
-  residenceType: z.string().optional()
+  res_years: z.string().min(1, 'Years at address is required'),
+  res_months: z.string().default('0'),
+  res_monthly_payment: z.string().optional(),
+  residence: z.string().optional()
 })
 
 // Employment Information Schema
 export const employmentInfoSchema = z.object({
-  employerName: z.string().min(1, 'Employer name is required'),
-  title: z.string().min(1, 'Title/Position is required'),
-  businessPhone: z.string().min(1, 'Business phone is required').regex(phoneRegex, 'Invalid phone number'),
-  grossMonthlySalary: z.string().min(1, 'Gross monthly salary is required'),
-  years: z.string().min(1, 'Years employed is required'),
-  months: z.string().default('0'),
-  employmentType: z.string().min(1, 'Employment type is required'),
-  otherIncome: z.string().optional(),
-  otherIncomeSource: z.string().optional(),
-  employerStreet: z.string().min(1, 'Employer street address is required'),
-  employerZip: z.string().min(1, 'Employer zip code is required').regex(zipCodeRegex, 'Invalid zip code format'),
-  employerCity: z.string().min(1, 'Employer city is required'),
-  employerState: z.string().min(1, 'Employer state is required')
+  employer: z.string().min(1, 'Employer name is required'),
+  title_employment: z.string().min(1, 'Title/Position is required'),
+  phone_employment: z.string().min(1, 'Business phone is required').regex(phoneRegex, 'Invalid phone number'),
+  gross_monthly: z.string().min(1, 'Gross monthly salary is required'),
+  time_company_years: z.string().min(1, 'Years employed is required'),
+  time_company_months: z.string().default('0'),
+  type_employment: z.string().min(1, 'Employment type is required'),
+  aditional_income: z.string().optional(),
+  source_addl: z.string().optional(),
+  employer_street: z.string().min(1, 'Employer street address is required'),
+  employer_zip: z.string().min(1, 'Employer zip code is required').regex(zipCodeRegex, 'Invalid zip code format'),
+  employer_city: z.string().min(1, 'Employer city is required'),
+  employer_state: z.string().min(1, 'Employer state is required')
 })
 
 // Previous Employment Schema
 export const previousEmploymentSchema = z.object({
-  employerName: z.string().min(1, 'Employer name is required'),
-  title: z.string().min(1, 'Title/Position is required'),
-  businessPhone: z.string().min(1, 'Business phone is required').regex(phoneRegex, 'Invalid phone number'),
-  grossMonthlySalary: z.string().min(1, 'Gross monthly salary is required'),
-  years: z.string().min(1, 'Years employed is required'),
-  months: z.string().default('0'),
-  employmentType: z.string().min(1, 'Employment type is required'),
-  employerStreet: z.string().min(1, 'Employer street address is required'),
-  employerZip: z.string().min(1, 'Employer zip code is required').regex(zipCodeRegex, 'Invalid zip code format'),
-  employerCity: z.string().min(1, 'Employer city is required'),
-  employerState: z.string().min(1, 'Employer state is required')
+  employer: z.string().min(1, 'Employer name is required'),
+  title_employment: z.string().min(1, 'Title/Position is required'),
+  phone_employment: z.string().min(1, 'Business phone is required').regex(phoneRegex, 'Invalid phone number'),
+  gross_monthly: z.string().min(1, 'Gross monthly salary is required'),
+  time_company_years: z.string().min(1, 'Years employed is required'),
+  time_company_months: z.string().default('0'),
+  type_employment: z.string().min(1, 'Employment type is required'),
+  employer_street: z.string().min(1, 'Employer street address is required'),
+  employer_zip: z.string().min(1, 'Employer zip code is required').regex(zipCodeRegex, 'Invalid zip code format'),
+  employer_city: z.string().min(1, 'Employer city is required'),
+  employer_state: z.string().min(1, 'Employer state is required')
 })
 
 // Co-buyer Information Schema
 export const coBuyerInfoSchema = z.object({
-  hasCoBuyer: z.boolean().default(false),
-  relationshipType: z.string().optional(),
+  has_cobuyer: z.boolean().default(false),
+  relationship: z.string().optional(),
   clientInfo: clientInfoSchema,
   residentialInfo: residentialInfoSchema,
   previousResidences: z.array(previousResidenceSchema).default([]),
@@ -137,33 +137,33 @@ export function createDynamicCreditApplicationSchema(config: any, hasCoBuyer: bo
 
   // Base employment info schema
   let employmentInfo = z.object({
-    employerName: z.string().min(1, 'Employer name is required'),
-    title: z.string().min(1, 'Title is required'),
-    businessPhone: z.string().min(1, 'Business phone is required').regex(phoneRegex, 'Invalid phone number'),
-    grossMonthlySalary: z.string().min(1, 'Gross monthly salary is required'),
-    years: z.string().min(1, 'Years is required'),
-    months: z.string().default('0'),
-    employmentType: z.string().min(1, 'Employment type is required'),
-    otherIncome: z.string().optional(),
-    otherIncomeSource: z.string().optional()
+    employer: z.string().min(1, 'Employer name is required'),
+    title_employment: z.string().min(1, 'Title is required'),
+    phone_employment: z.string().min(1, 'Business phone is required').regex(phoneRegex, 'Invalid phone number'),
+    gross_monthly: z.string().min(1, 'Gross monthly salary is required'),
+    time_company_years: z.string().min(1, 'Years is required'),
+    time_company_months: z.string().default('0'),
+    type_employment: z.string().min(1, 'Employment type is required'),
+    aditional_income: z.string().optional(),
+    source_addl: z.string().optional()
   })
 
   // Add employer address if enabled
   if (config.employerAddress) {
     employmentInfo = employmentInfo.extend({
-      employerStreet: z.string().min(1, 'Employer street is required'),
-      employerZip: z.string().min(1, 'Employer zip is required').regex(zipCodeRegex, 'Invalid zip code'),
-      employerCity: z.string().min(1, 'Employer city is required'),
-      employerState: z.string().min(1, 'Employer state is required')
+      employer_street: z.string().min(1, 'Employer street is required'),
+      employer_zip: z.string().min(1, 'Employer zip is required').regex(zipCodeRegex, 'Invalid zip code'),
+      employer_city: z.string().min(1, 'Employer city is required'),
+      employer_state: z.string().min(1, 'Employer state is required')
     })
   }
 
   // Base residential info schema
   let residentialInfo = z.object({
-    years: z.string().min(1, 'Years is required'),
-    months: z.string().default('0'),
-    monthlyPayment: z.string().optional(),
-    residenceType: z.string().optional()
+    res_years: z.string().min(1, 'Years is required'),
+    res_months: z.string().default('0'),
+    res_monthly_payment: z.string().optional(),
+    residence: z.string().optional()
   })
 
   // Base vehicle info schema
@@ -187,8 +187,8 @@ export function createDynamicCreditApplicationSchema(config: any, hasCoBuyer: bo
 
   // Co-buyer info schema - conditional validation based on hasCoBuyer
   const coBuyerInfo = hasCoBuyer ? z.object({
-    hasCoBuyer: z.boolean().default(false),
-    relationshipType: z.string().min(1, 'Relationship type is required'),
+    has_cobuyer: z.boolean().default(false),
+    relationship: z.string().min(1, 'Relationship type is required'),
     clientInfo: clientInfo,
     residentialInfo: residentialInfo,
     previousResidences: values.coBuyerInfo?.previousResidences.length > 0 ? z.array(previousResidenceSchema).default([]) : z.array(previousResidenceSchema).optional(),

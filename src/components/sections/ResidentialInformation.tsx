@@ -31,14 +31,14 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
       form.setValue(previousResidencesPath as any, [
         {
           address: '',
-          aptUnit: '',
-          zipCode: '',
+          apt_unit: '',
+          zip: '',
           city: '',
           state: '',
-          years: '',
-          months: '0',
-          monthlyPayment: '',
-          residenceType: ''
+          res_years: '',
+          res_months: '0',
+          res_monthly_payment: '',
+          residence: ''
         }
       ])
     }
@@ -67,23 +67,23 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
             <div className="md:col-span-2">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor={`${residentialPath}.years`}>Years *</Label>
+                  <Label htmlFor={`${residentialPath}.res_years`}>Years *</Label>
                   <Input
-                    id={`${residentialPath}.years`}
-                    {...form.register(`${residentialPath}.years`)}
+                    id={`${residentialPath}.res_years`}
+                    {...form.register(`${residentialPath}.res_years`)}
                     placeholder="Years at address"
                   />
-                  {getFieldError(form.formState.errors, `${residentialPath}.years`) && (
+                  {getFieldError(form.formState.errors, `${residentialPath}.res_years`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {getFieldError(form.formState.errors, `${residentialPath}.years`)}
+                      {getFieldError(form.formState.errors, `${residentialPath}.res_years`)}
                     </p>
                   )}
                 </div>
                 <div>
-                  <Label htmlFor={`${residentialPath}.months`}>Months</Label>
+                  <Label htmlFor={`${residentialPath}.res_months`}>Months</Label>
                   <Input
-                    id={`${residentialPath}.months`}
-                    {...form.register(`${residentialPath}.months`)}
+                    id={`${residentialPath}.res_months`}
+                    {...form.register(`${residentialPath}.res_months`)}
                     placeholder="Months"
                     defaultValue="0"
                   />
@@ -92,19 +92,19 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
             </div>
 
             <div>
-              <Label htmlFor={`${residentialPath}.monthlyPayment`}>Monthly Payment</Label>
+              <Label htmlFor={`${residentialPath}.res_monthly_payment`}>Monthly Payment</Label>
               <Input
-                id={`${residentialPath}.monthlyPayment`}
-                {...form.register(`${residentialPath}.monthlyPayment`)}
+                id={`${residentialPath}.res_monthly_payment`}
+                {...form.register(`${residentialPath}.res_monthly_payment`)}
                 placeholder="Monthly payment"
               />
             </div>
 
             <div>
-              <Label htmlFor={`${residentialPath}.residenceType`}>Residence Type</Label>
+              <Label htmlFor={`${residentialPath}.residence`}>Residence Type</Label>
               <Select
-                value={form.watch(`${residentialPath}.residenceType`)}
-                onValueChange={(value) => form.setValue(`${residentialPath}.residenceType`, value)}
+                value={form.watch(`${residentialPath}.residence`)}
+                onValueChange={(value) => form.setValue(`${residentialPath}.residence`, value)}
               >
                 <SelectTrigger className='w-full'>
                   <SelectValue placeholder="Select Type" />
@@ -168,17 +168,17 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                   </div>
                   <div className='flex flex-col md:flex-row gap-4'>
                     <div className='w-full md:w-[25%]'>
-                      <Label htmlFor={`${previousResidencesPath}.${index}.aptUnit`}>APT</Label>
+                      <Label htmlFor={`${previousResidencesPath}.${index}.apt_unit`}>APT</Label>
                       <Input
-                        {...form.register(`${previousResidencesPath}.${index}.aptUnit`)}
+                        {...form.register(`${previousResidencesPath}.${index}.apt_unit`)}
                         placeholder="APT"
                       />
                     </div>
                     <div className='w-full md:w-[75%]'>
-                      <Label htmlFor={`${previousResidencesPath}.${index}.zipCode`}>Zip Code *</Label>
+                      <Label htmlFor={`${previousResidencesPath}.${index}.zip`}>Zip Code *</Label>
                       <div className="relative">
                         <Input
-                          {...form.register(`${previousResidencesPath}.${index}.zipCode`)}
+                          {...form.register(`${previousResidencesPath}.${index}.zip`)}
                           placeholder="Zip Code"
                           className='pr-10'
                         />
@@ -193,9 +193,9 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                           <RotateCcw className="h-4 w-4 text-gray-600" />
                         </button>
                       </div>
-                      {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.zipCode`) && (
+                      {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.zip`) && (
                         <p className="text-sm text-red-600 mt-1">
-                          {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.zipCode`)}
+                          {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.zip`)}
                         </p>
                       )}
                     </div>
@@ -228,37 +228,37 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div>
-                    <Label htmlFor={`${previousResidencesPath}.${index}.years`}>Years *</Label>
+                    <Label htmlFor={`${previousResidencesPath}.${index}.res_years`}>Years *</Label>
                     <Input
-                      {...form.register(`${previousResidencesPath}.${index}.years`)}
+                      {...form.register(`${previousResidencesPath}.${index}.res_years`)}
                       placeholder="Years"
                     />
-                    {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.years`) && (
+                    {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.res_years`) && (
                       <p className="text-sm text-red-600 mt-1">
-                        {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.years`)}
+                        {getFieldError(form.formState.errors, `${previousResidencesPath}.${index}.res_years`)}
                       </p>
                     )}
                   </div>
                   <div>
-                    <Label htmlFor={`${previousResidencesPath}.${index}.months`}>Months</Label>
+                    <Label htmlFor={`${previousResidencesPath}.${index}.res_months`}>Months</Label>
                     <Input
-                      {...form.register(`${previousResidencesPath}.${index}.months`)}
+                      {...form.register(`${previousResidencesPath}.${index}.res_months`)}
                       placeholder="Months"
                       defaultValue="0"
                     />
                   </div>
                   <div>
-                    <Label htmlFor={`${previousResidencesPath}.${index}.monthlyPayment`}>Monthly Payment</Label>
+                    <Label htmlFor={`${previousResidencesPath}.${index}.res_monthly_payment`}>Monthly Payment</Label>
                     <Input
-                      {...form.register(`${previousResidencesPath}.${index}.monthlyPayment`)}
+                      {...form.register(`${previousResidencesPath}.${index}.res_monthly_payment`)}
                       placeholder="Monthly payment"
                     />
                   </div>
                   <div>
-                    <Label htmlFor={`${previousResidencesPath}.${index}.residenceType`}>Residence Type</Label>
+                    <Label htmlFor={`${previousResidencesPath}.${index}.residence`}>Residence Type</Label>
                     <Select
-                      value={form.watch(`${previousResidencesPath}.${index}.residenceType`)}
-                      onValueChange={(value) => form.setValue(`${previousResidencesPath}.${index}.residenceType`, value)}
+                      value={form.watch(`${previousResidencesPath}.${index}.residence`)}
+                      onValueChange={(value) => form.setValue(`${previousResidencesPath}.${index}.residence`, value)}
                     >
                       <SelectTrigger className='w-full'>
                         <SelectValue placeholder="Select Type" />

@@ -17,7 +17,7 @@ export function CoBuyerInformation() {
   const { form } = useFormContext()
   const { config } = useCreditAppStore()
 
-  const hasCoBuyer = form.watch('coBuyerInfo.hasCoBuyer')
+  const hasCoBuyer = form.watch('coBuyerInfo.has_cobuyer')
 
   return (
     <motion.div
@@ -33,21 +33,21 @@ export function CoBuyerInformation() {
             <div className='flex items-center gap-4'>
               <input
                 type="checkbox"
-                id="hasCoBuyer"
+                id="has_cobuyer"
                 checked={hasCoBuyer}
-                onChange={(e) => form.setValue('coBuyerInfo.hasCoBuyer', e.target.checked)}
+                onChange={(e) => form.setValue('coBuyerInfo.has_cobuyer', e.target.checked)}
                 className="h-5 w-5 py-2 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
-              <Label htmlFor="hasCoBuyer" className="text-md font-medium pb-0">
+              <Label htmlFor="has_cobuyer" className="text-md font-medium pb-0">
                 Has Co-buyer?
               </Label>
             </div>
             {hasCoBuyer && (
               <div>
-                <Label htmlFor="coBuyerInfo.relationshipType">Relationship Type</Label>
+                <Label htmlFor="coBuyerInfo.relationship">Relationship Type</Label>
                 <Select
-                  value={form.watch('coBuyerInfo.relationshipType')}
-                  onValueChange={(value) => form.setValue('coBuyerInfo.relationshipType', value)}
+                  value={form.watch('coBuyerInfo.relationship')}
+                  onValueChange={(value) => form.setValue('coBuyerInfo.relationship', value)}
                 >
                   <SelectTrigger className='w-full'>
                     <SelectValue placeholder="Select relationship type" />
@@ -60,9 +60,9 @@ export function CoBuyerInformation() {
                     ))}
                   </SelectContent>
                 </Select>
-                {getFieldError(form.formState.errors, `coBuyerInfo.relationshipType`) && (
+                {getFieldError(form.formState.errors, `coBuyerInfo.relationship`) && (
                   <p className="text-sm text-red-600 mt-1">
-                    {getFieldError(form.formState.errors, `coBuyerInfo.relationshipType`)}
+                    {getFieldError(form.formState.errors, `coBuyerInfo.relationship`)}
                   </p>
                 )}
               </div>

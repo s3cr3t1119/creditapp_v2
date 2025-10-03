@@ -3,7 +3,7 @@ import { FieldErrors, FieldPath, FieldValues } from 'react-hook-form'
 /**
  * Helper function to get error message for a field path
  * @param errors - Form errors object
- * @param fieldPath - The field path (e.g., 'buyerInfo.employmentInfo.title')
+ * @param fieldPath - The field path (e.g., 'buyerInfo.employmentInfo.title_employment')
  * @returns Error message or undefined
  */
 export function getFieldError(

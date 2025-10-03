@@ -23,7 +23,7 @@ export function CreditApplicationForm() {
   // Create dynamic resolver that checks hasCoBuyer at validation time
   const dynamicResolver = (values: any, context: any, options: any) => {
     console.log(values);
-    const hasCoBuyer = values?.coBuyerInfo?.hasCoBuyer || false
+    const hasCoBuyer = values?.coBuyerInfo?.has_cobuyer || false
     const schema = createDynamicCreditApplicationSchema(config, hasCoBuyer, values)
     return zodResolver(schema)(values, context, options)
   }
@@ -44,84 +44,84 @@ export function CreditApplicationForm() {
           firstName: '',
           lastName: '',
           address: '',
-          aptUnit: '',
-          zipCode: '',
+          apt_unit: '',
+          zip: '',
           city: '',
           state: '',
           email: '',
           homePhone: '',
           cellPhone: '',
-          dateOfBirth: '',
+          dob: '',
           ssn: '',
-          driverLicenseNo: '',
-          driverLicenseState: '',
-          driverLicenseExpiration: ''
+          dlr_nro: '',
+          dlr_state: '',
+          dlr_expiration: ''
         },
         residentialInfo: {
-          years: '',
-          months: '0',
-          monthlyPayment: '',
-          residenceType: ''
+          res_years: '',
+          res_months: '0',
+          res_monthly_payment: '',
+          residence: ''
         },
         previousResidences: [],
         employmentInfo: {
-          employerName: '',
-          title: '',
-          businessPhone: '',
-          grossMonthlySalary: '',
-          years: '',
-          months: '0',
-          employmentType: '',
-          otherIncome: '',
-          otherIncomeSource: '',
-          employerStreet: '',
-          employerZip: '',
-          employerCity: '',
-          employerState: ''
+          employer: '',
+          title_employment: '',
+          phone_employment: '',
+          gross_monthly: '',
+          time_company_years: '',
+          time_company_months: '0',
+          type_employment: '',
+          aditional_income: '',
+          source_addl: '',
+          employer_street: '',
+          employer_zip: '',
+          employer_city: '',
+          employer_state: ''
         },
         previousEmployments: []
       },
       coBuyerInfo: {
-        hasCoBuyer: false,
-        relationshipType: '',
+        has_cobuyer: false,
+        relationship: '',
         clientInfo: {
           firstName: '',
           lastName: '',
           address: '',
-          aptUnit: '',
-          zipCode: '',
+          apt_unit: '',
+          zip: '',
           city: '',
           state: '',
           email: '',
           homePhone: '',
           cellPhone: '',
-          dateOfBirth: '',
+          dob: '',
           ssn: '',
-          driverLicenseNo: '',
-          driverLicenseState: '',
-          driverLicenseExpiration: ''
+          dlr_nro: '',
+          dlr_state: '',
+          dlr_expiration: ''
         },
         residentialInfo: {
-          years: '',
-          months: '0',
-          monthlyPayment: '',
-          residenceType: ''
+          res_years: '',
+          res_months: '0',
+          res_monthly_payment: '',
+          residence: ''
         },
         previousResidences: [],
         employmentInfo: {
-          employerName: '',
-          title: '',
-          businessPhone: '',
-          grossMonthlySalary: '',
-          years: '',
-          months: '0',
-          employmentType: '',
-          otherIncome: '',
-          otherIncomeSource: '',
-          employerStreet: '',
-          employerZip: '',
-          employerCity: '',
-          employerState: ''
+          employer: '',
+          title_employment: '',
+          phone_employment: '',
+          gross_monthly: '',
+          time_company_years: '',
+          time_company_months: '0',
+          type_employment: '',
+          aditional_income: '',
+          source_addl: '',
+          employer_street: '',
+          employer_zip: '',
+          employer_city: '',
+          employer_state: ''
         },
         previousEmployments: []
       }

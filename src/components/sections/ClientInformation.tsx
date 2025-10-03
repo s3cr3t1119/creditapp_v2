@@ -81,20 +81,20 @@ export function ClientInformation({ section }: ClientInformationProps) {
             </div>
             <div className='flex flex-col md:flex-row gap-4'>
               <div className='w-full md:w-[25%]'>
-                <Label htmlFor={`${basePath}.aptUnit`}>APT</Label>
+                <Label htmlFor={`${basePath}.apt_unit`}>APT</Label>
                 <Input
-                  id={`${basePath}.aptUnit`}
-                  {...form.register(`${basePath}.aptUnit`)}
+                  id={`${basePath}.apt_unit`}
+                  {...form.register(`${basePath}.apt_unit`)}
                   placeholder="APT"
                 />
               </div>
 
               <div className='w-full md:w-[75%]'>
-                <Label htmlFor={`${basePath}.zipCode`}>Zip Code *</Label>
+                <Label htmlFor={`${basePath}.zip`}>Zip Code *</Label>
                 <div className="relative">
                   <Input
-                    id={`${basePath}.zipCode`}
-                    {...form.register(`${basePath}.zipCode`)}
+                    id={`${basePath}.zip`}
+                    {...form.register(`${basePath}.zip`)}
                     placeholder="Zip Code"
                     className="pr-10"
                   />
@@ -109,9 +109,9 @@ export function ClientInformation({ section }: ClientInformationProps) {
                     <RotateCcw className="h-4 w-4 text-gray-600" />
                   </button>
                 </div>
-                {getFieldError(form.formState.errors, `${basePath}.zipCode`) && (
+                {getFieldError(form.formState.errors, `${basePath}.zip`) && (
                   <p className="text-sm text-red-600 mt-1">
-                    {getFieldError(form.formState.errors, `${basePath}.zipCode`)}
+                    {getFieldError(form.formState.errors, `${basePath}.zip`)}
                   </p>
                 )}
               </div>
@@ -199,15 +199,15 @@ export function ClientInformation({ section }: ClientInformationProps) {
             </div>
 
             <div>
-              <Label htmlFor={`${basePath}.dateOfBirth`}>Date of Birth *</Label>
+              <Label htmlFor={`${basePath}.dob`}>Date of Birth *</Label>
               <Input
-                id={`${basePath}.dateOfBirth`}
+                id={`${basePath}.dob`}
                 type="date"
-                {...form.register(`${basePath}.dateOfBirth`)}
+                {...form.register(`${basePath}.dob`)}
               />
-              {getFieldError(form.formState.errors, `${basePath}.dateOfBirth`) && (
+              {getFieldError(form.formState.errors, `${basePath}.dob`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {getFieldError(form.formState.errors, `${basePath}.dateOfBirth`)}
+                  {getFieldError(form.formState.errors, `${basePath}.dob`)}
                 </p>
               )}
             </div>
@@ -233,24 +233,24 @@ export function ClientInformation({ section }: ClientInformationProps) {
             {true && (
               <>
                 <div>
-                  <Label htmlFor={`${basePath}.driverLicenseNo`}>Driver License No *</Label>
+                  <Label htmlFor={`${basePath}.dlr_nro`}>Driver License No *</Label>
                   <Input
-                    id={`${basePath}.driverLicenseNo`}
-                    {...form.register(`${basePath}.driverLicenseNo`)}
+                    id={`${basePath}.dlr_nro`}
+                    {...form.register(`${basePath}.dlr_nro`)}
                     placeholder="Driver License No"
                   />
-                  {getFieldError(form.formState.errors, `${basePath}.driverLicenseNo`) && (
+                  {getFieldError(form.formState.errors, `${basePath}.dlr_nro`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {getFieldError(form.formState.errors, `${basePath}.driverLicenseNo`)}
+                      {getFieldError(form.formState.errors, `${basePath}.dlr_nro`)}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor={`${basePath}.driverLicenseState`}>Driver License State *</Label>
+                  <Label htmlFor={`${basePath}.dlr_state`}>Driver License State *</Label>
                   <Select
-                    value={form.watch(`${basePath}.driverLicenseState`)}
-                    onValueChange={(value) => form.setValue(`${basePath}.driverLicenseState`, value)}
+                    value={form.watch(`${basePath}.dlr_state`)}
+                    onValueChange={(value) => form.setValue(`${basePath}.dlr_state`, value)}
                   >
                     <SelectTrigger className='w-full'>
                       <SelectValue placeholder="Select State" />
@@ -263,23 +263,23 @@ export function ClientInformation({ section }: ClientInformationProps) {
                       ))}
                     </SelectContent>
                   </Select>
-                  {getFieldError(form.formState.errors, `${basePath}.driverLicenseState`) && (
+                  {getFieldError(form.formState.errors, `${basePath}.dlr_state`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {getFieldError(form.formState.errors, `${basePath}.driverLicenseState`)}
+                      {getFieldError(form.formState.errors, `${basePath}.dlr_state`)}
                     </p>
                   )}
                 </div>
 
                 <div>
-                  <Label htmlFor={`${basePath}.driverLicenseExpiration`}>Driver License Expiration *</Label>
+                  <Label htmlFor={`${basePath}.dlr_expiration`}>Driver License Expiration *</Label>
                   <Input
-                    id={`${basePath}.driverLicenseExpiration`}
+                    id={`${basePath}.dlr_expiration`}
                     type="date"
-                    {...form.register(`${basePath}.driverLicenseExpiration`)}
+                    {...form.register(`${basePath}.dlr_expiration`)}
                   />
-                  {getFieldError(form.formState.errors, `${basePath}.driverLicenseExpiration`) && (
+                  {getFieldError(form.formState.errors, `${basePath}.dlr_expiration`) && (
                     <p className="text-sm text-red-600 mt-1">
-                      {getFieldError(form.formState.errors, `${basePath}.driverLicenseExpiration`)}
+                      {getFieldError(form.formState.errors, `${basePath}.dlr_expiration`)}
                     </p>
                   )}
                 </div>
