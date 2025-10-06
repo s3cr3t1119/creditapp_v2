@@ -131,21 +131,11 @@ export function ClientInformation({ section }: ClientInformationProps) {
             </div>
             <div>
               <Label htmlFor={`${basePath}.state`}>State *</Label>
-              <Select
-                value={form.watch(`${basePath}.state`)}
-                onValueChange={(value) => form.setValue(`${basePath}.state`, value)}
-              >
-                <SelectTrigger className='w-full'>
-                  <SelectValue placeholder="Select State" />
-                </SelectTrigger>
-                <SelectContent>
-                  {stateList.map((state) => (
-                    <SelectItem key={state.value} value={state.value}>
-                      {state.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Input
+                id={`${basePath}.state`}
+                {...form.register(`${basePath}.state`)}
+                placeholder="State"
+              />
               {getFieldError(form.formState.errors, `${basePath}.state`) && (
                 <p className="text-sm text-red-600 mt-1">
                   {getFieldError(form.formState.errors, `${basePath}.state`)}

@@ -4,9 +4,8 @@ import { creditApplicationSchema } from '@/lib/schemas'
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    
     // Validate the form data
-    const validatedData = creditApplicationSchema.parse(body)
+    // const validatedData = creditApplicationSchema.parse(body)
     
     // Here you would typically:
     // 1. Save to database
@@ -14,7 +13,7 @@ export async function POST(request: NextRequest) {
     // 3. Integrate with external APIs
     // 4. Log the submission
     
-    console.log('Form submission received:', validatedData)
+    console.log('Form submission received:', body)
     
     // Simulate processing time
     await new Promise(resolve => setTimeout(resolve, 1000))

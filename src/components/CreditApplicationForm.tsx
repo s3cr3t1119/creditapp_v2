@@ -22,7 +22,6 @@ export function CreditApplicationForm() {
 
   // Create dynamic resolver that checks hasCoBuyer at validation time
   const dynamicResolver = (values: any, context: any, options: any) => {
-    console.log(values);
     const hasCoBuyer = values?.coBuyerInfo?.has_cobuyer || false
     const schema = createDynamicCreditApplicationSchema(config, hasCoBuyer, values)
     return zodResolver(schema)(values, context, options)
@@ -210,7 +209,7 @@ export function CreditApplicationForm() {
               </TabsContent>
             </Tabs>
 
-            <div className="border-t pt-8">
+            <div className="border-t pt-8 px-6">
               <div className="mb-6">
                 <label className="flex items-start space-x-3">
                   <span className="text-sm text-gray-900">
@@ -232,11 +231,11 @@ export function CreditApplicationForm() {
                   <input
                     type="checkbox"
                     required
-                    className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <span className='text-gray-900'>I accept the above terms.</span>
                 </label>
-                <div className="flex lg:justify-end justify-center">
+                <div className="flex md:justify-end justify-center">
                   <Button
                     type="submit"
                     disabled={isSubmitting}
@@ -252,8 +251,8 @@ export function CreditApplicationForm() {
                   </Button>
                 </div>
               </div>
-              <div className='w-full text-center'>
-                <span className='text-md'>Version 1.1.8</span>
+              <div className='w-full text-center pt-8'>
+                <span className='text-sm'>Version 1.1.8</span>
               </div>
             </div>
           </form>

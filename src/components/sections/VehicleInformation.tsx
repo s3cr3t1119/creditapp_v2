@@ -7,10 +7,11 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useFormContext } from '@/components/FormProvider'
 import { useCreditAppStore } from '@/lib/store'
+import { getFieldError } from '@/lib/formHelpers'
 
 export function VehicleInformation() {
   const { form } = useFormContext()
-  const { config } = useCreditAppStore()
+  const { config, fetchedData } = useCreditAppStore()
 
   return (
     <motion.div
@@ -37,12 +38,14 @@ export function VehicleInformation() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="Any Car">Any Car</SelectItem>
-                  {/* Add more vehicle options here */}
+                  {fetchedData && fetchedData.inventory?.map((inventory, index) => (
+                    <SelectItem key={index} value={inventory.id}>{inventory.make} {inventory.model} {inventory.year} - VIN: {inventory.vin}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
-              {form.formState.errors.vehicleInfo?.vehicle_title && (
+              {getFieldError(form.formState.errors, `vehicleInfo.vehicle_title`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.vehicleInfo.vehicle_title.message}
+                  {getFieldError(form.formState.errors, `vehicleInfo.vehicle_title`)}
                 </p>
               )}
             </div>
@@ -59,7 +62,9 @@ export function VehicleInformation() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="none">None</SelectItem>
-                  {/* Add agent options here */}
+                  {fetchedData && fetchedData.financing?.agents?.map((agent, index) => (
+                    <SelectItem key={index} value={agent.id}>{agent.fullName}</SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
@@ -73,9 +78,9 @@ export function VehicleInformation() {
                 {...form.register('vehicleInfo.down_payment')}
                 placeholder="Enter down payment amount"
               />
-              {form.formState.errors.vehicleInfo?.down_payment && (
+              {getFieldError(form.formState.errors, `vehicleInfo.down_payment`) && (
                 <p className="text-sm text-red-600 mt-1">
-                  {form.formState.errors.vehicleInfo.down_payment.message}
+                  {getFieldError(form.formState.errors, `vehicleInfo.down_payment`)}
                 </p>
               )}
             </div>

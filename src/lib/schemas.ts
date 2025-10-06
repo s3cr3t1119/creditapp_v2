@@ -38,7 +38,7 @@ export const driverLicenseSchema = z.object({
 export const vehicleInfoSchema = z.object({
   vehicle_title: z.string().min(1, 'Vehicle selection is required'),
   sales_agent: z.string().optional(),
-  down_payment: z.string().min(1, 'Down payment is required'),
+  down_payment: z.number().min(0, 'Down payment is required'),
   trade_year: z.string().optional(),
   trade_make: z.string().optional(),
   trade_model: z.string().optional()

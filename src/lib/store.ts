@@ -87,6 +87,39 @@ export interface CoBuyerInfo {
   previousEmployments: PreviousEmployment[]
 }
 
+export interface InventoryInfo {
+  id: string
+  make: string
+  model: string
+  vin: string
+  year: number
+}
+
+export interface AgentInfo {
+  id: string
+  fullName: string
+}
+
+// API Response types
+export interface ApiResponse<T = any> {
+  items?: T
+  msg: string
+  error: number
+}
+
+export interface FetchedFormData {
+  adfEmail: string | null
+  adfEmails: Array<string> | string | null
+  contactEmail: string | null
+  financing: Partial<{
+    agents: Array<AgentInfo> | null
+  }>
+  inventory?: Array<InventoryInfo> | null
+  name: string | null
+  phone: string | null
+  token: string | null
+}
+
 export interface CreditAppState {
   // Form data
   vehicleInfo: VehicleInfo
@@ -103,6 +136,11 @@ export interface CreditAppState {
   activeTab: 'buyer' | 'cobuyer'
   isLoading: boolean
   errors: Record<string, string[]>
+  
+  // Data fetching state
+  isDataLoading: boolean
+  dataError: string | null
+  fetchedData: FetchedFormData | null
   
   // Configuration
   config: {
@@ -134,15 +172,16 @@ export interface CreditAppState {
   updateVehicleInfo: (data: Partial<VehicleInfo>) => void
   updateBuyerInfo: (data: Partial<CreditAppState['buyerInfo']>) => void
   updateCoBuyerInfo: (data: Partial<CoBuyerInfo>) => void
-  addPreviousResidence: (residence: PreviousResidence) => void
-  removePreviousResidence: (index: number) => void
-  addPreviousEmployment: (employment: PreviousEmployment) => void
-  removePreviousEmployment: (index: number) => void
   setLoading: (loading: boolean) => void
   setErrors: (errors: Record<string, string[]>) => void
   clearErrors: () => void
   setConfig: (config: Partial<CreditAppState['config']>) => void
   resetForm: () => void
+  
+  // Data fetching actions
+  setDataLoading: (loading: boolean) => void
+  setDataError: (error: string | null) => void
+  setFetchedData: (data: FetchedFormData | null) => void
 }
 
 const initialState = {
@@ -243,6 +282,12 @@ const initialState = {
   activeTab: 'buyer' as const,
   isLoading: false,
   errors: {},
+  
+  // Data fetching state
+  isDataLoading: false,
+  dataError: null,
+  fetchedData: null,
+  
   config: {
     primaryColor: '#d8534e',
     showAgents: true,
@@ -289,107 +334,7 @@ export const useCreditAppStore = create<CreditAppState>()(
         set((state) => ({
           coBuyerInfo: { ...state.coBuyerInfo, ...data }
         })),
-      
-      addPreviousResidence: (residence) =>
-        set((state) => {
-          const isCoBuyer = state.activeTab === 'cobuyer'
-          const currentResidences = isCoBuyer 
-            ? state.coBuyerInfo.previousResidences 
-            : state.buyerInfo.previousResidences
-          
-          if (isCoBuyer) {
-            return {
-              coBuyerInfo: {
-                ...state.coBuyerInfo,
-                previousResidences: [...currentResidences, residence]
-              }
-            }
-          } else {
-            return {
-              buyerInfo: {
-                ...state.buyerInfo,
-                previousResidences: [...currentResidences, residence]
-              }
-            }
-          }
-        }),
-      
-      removePreviousResidence: (index) =>
-        set((state) => {
-          const isCoBuyer = state.activeTab === 'cobuyer'
-          const currentResidences = isCoBuyer 
-            ? state.coBuyerInfo.previousResidences 
-            : state.buyerInfo.previousResidences
-          
-          const newResidences = currentResidences.filter((_, i) => i !== index)
-          
-          if (isCoBuyer) {
-            return {
-              coBuyerInfo: {
-                ...state.coBuyerInfo,
-                previousResidences: newResidences
-              }
-            }
-          } else {
-            return {
-              buyerInfo: {
-                ...state.buyerInfo,
-                previousResidences: newResidences
-              }
-            }
-          }
-        }),
-      
-      addPreviousEmployment: (employment) =>
-        set((state) => {
-          const isCoBuyer = state.activeTab === 'cobuyer'
-          const currentEmployments = isCoBuyer 
-            ? state.coBuyerInfo.previousEmployments 
-            : state.buyerInfo.previousEmployments
-          
-          if (isCoBuyer) {
-            return {
-              coBuyerInfo: {
-                ...state.coBuyerInfo,
-                previousEmployments: [...currentEmployments, employment]
-              }
-            }
-          } else {
-            return {
-              buyerInfo: {
-                ...state.buyerInfo,
-                previousEmployments: [...currentEmployments, employment]
-              }
-            }
-          }
-        }),
-      
-      removePreviousEmployment: (index) =>
-        set((state) => {
-          const isCoBuyer = state.activeTab === 'cobuyer'
-          const currentEmployments = isCoBuyer 
-            ? state.coBuyerInfo.previousEmployments 
-            : state.buyerInfo.previousEmployments
-          
-          const newEmployments = currentEmployments.filter((_, i) => i !== index)
-          
-          if (isCoBuyer) {
-            return {
-              coBuyerInfo: {
-                ...state.coBuyerInfo,
-                previousEmployments: newEmployments
-              }
-            }
-          } else {
-            return {
-              buyerInfo: {
-                ...state.buyerInfo,
-                previousEmployments: newEmployments
-              }
-            }
-          }
-        }),
-      
+
       setLoading: (loading) => set({ isLoading: loading }),
       
       setErrors: (errors) => set({ errors }),
@@ -401,7 +346,14 @@ export const useCreditAppStore = create<CreditAppState>()(
           config: { ...state.config, ...config }
         })),
       
-      resetForm: () => set(initialState)
+      resetForm: () => set(initialState),
+
+      // Data fetching actions
+      setDataLoading: (loading) => set({ isDataLoading: loading }),
+      
+      setDataError: (error) => set({ dataError: error }),
+      
+      setFetchedData: (data) => set({ fetchedData: data })
     }),
     {
       name: 'credit-app-store'

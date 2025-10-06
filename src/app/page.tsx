@@ -6,10 +6,13 @@ import { useCreditAppStore } from '@/lib/store'
 import { configSchema } from '@/lib/schemas'
 import { CreditApplicationForm } from '@/components/CreditApplicationForm'
 import { SuccessPage } from '@/components/SuccessPage'
+import { useDataFetching } from '@/hooks/useDataFetching'
+import { NotFound } from '@/components/NotFound'
 
 export default function Home() {
   const searchParams = useSearchParams()
-  const { config, setConfig, isLoading } = useCreditAppStore()
+  const { config, setConfig } = useCreditAppStore()
+  const { fetchAndPopulate, isDataLoading, dataError } = useDataFetching()
 
   useEffect(() => {
     // Parse URL parameters and set configuration
@@ -46,11 +49,41 @@ export default function Home() {
     }
   }, [searchParams, setConfig])
 
+  // Fetch data when component mounts if ID is provided
+  useEffect(() => {
+    const id = searchParams.get('id') || ''
+    const fetchParams = {
+      id,
+      deployType: searchParams.get('deployType') || undefined,
+      parentDomain: searchParams.get('parentDomain') || undefined,
+      parentIP: searchParams.get('parentIP') || undefined,
+    }
+    
+    fetchAndPopulate(fetchParams)
+  }, [searchParams, fetchAndPopulate])
+
   // Check if we should show success page
   const showSuccess = searchParams.get('success') === 'true' && config.successPageEnabled
 
   if (showSuccess) {
     return <SuccessPage />
+  }
+
+  // Show loading state while fetching data
+  if (isDataLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading application data...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state if data fetching failed
+  if (dataError) {
+    return <NotFound />
   }
 
   return (
