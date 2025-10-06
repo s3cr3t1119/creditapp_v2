@@ -103,7 +103,6 @@ export const previousEmploymentSchema = z.object({
 
 // Co-buyer Information Schema
 export const coBuyerInfoSchema = z.object({
-  has_cobuyer: z.boolean().default(false),
   relationship: z.string().optional(),
   clientInfo: clientInfoSchema,
   residentialInfo: residentialInfoSchema,
@@ -122,6 +121,7 @@ export const creditApplicationSchema = z.object({
     employmentInfo: employmentInfoSchema,
     previousEmployments: z.array(previousEmploymentSchema).default([])
   }),
+  has_cobuyer: z.boolean().default(false),
   coBuyerInfo: coBuyerInfoSchema
 })
 
@@ -187,7 +187,6 @@ export function createDynamicCreditApplicationSchema(config: any, hasCoBuyer: bo
 
   // Co-buyer info schema - conditional validation based on hasCoBuyer
   const coBuyerInfo = hasCoBuyer ? z.object({
-    has_cobuyer: z.boolean().default(false),
     relationship: z.string().min(1, 'Relationship type is required'),
     clientInfo: clientInfo,
     residentialInfo: residentialInfo,
@@ -199,6 +198,7 @@ export function createDynamicCreditApplicationSchema(config: any, hasCoBuyer: bo
   return z.object({
     vehicleInfo,
     buyerInfo,
+    has_cobuyer: z.boolean().default(false),
     coBuyerInfo
   })
 }

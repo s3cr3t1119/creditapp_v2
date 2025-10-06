@@ -17,7 +17,7 @@ export function CoBuyerInformation() {
   const { form } = useFormContext()
   const { config } = useCreditAppStore()
 
-  const hasCoBuyer = form.watch('coBuyerInfo.has_cobuyer')
+  const hasCoBuyer = form.watch('has_cobuyer')
 
   return (
     <motion.div
@@ -35,7 +35,7 @@ export function CoBuyerInformation() {
                 type="checkbox"
                 id="has_cobuyer"
                 checked={hasCoBuyer}
-                onChange={(e) => form.setValue('coBuyerInfo.has_cobuyer', e.target.checked)}
+                onChange={(e) => form.setValue('has_cobuyer', e.target.checked)}
                 className="h-5 w-5 py-2 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
               />
               <Label htmlFor="has_cobuyer" className="text-md font-medium pb-0">

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'framer-motion'
+import { ToastContainer, toast } from 'react-toastify';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -15,14 +16,15 @@ import { ResidentialInformation } from './sections/ResidentialInformation'
 import { EmploymentInformation } from './sections/EmploymentInformation'
 import { CoBuyerInformation } from './sections/CoBuyerInformation'
 import { FormProvider } from './FormProvider'
+import { parseSubmitData } from '@/lib/utils'
 
 export function CreditApplicationForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const { activeTab, setActiveTab, config } = useCreditAppStore()
+  const { activeTab, setActiveTab, config, setShowSuccessPage } = useCreditAppStore()
 
   // Create dynamic resolver that checks hasCoBuyer at validation time
   const dynamicResolver = (values: any, context: any, options: any) => {
-    const hasCoBuyer = values?.coBuyerInfo?.has_cobuyer || false
+    const hasCoBuyer = values?.has_cobuyer || false
     const schema = createDynamicCreditApplicationSchema(config, hasCoBuyer, values)
     return zodResolver(schema)(values, context, options)
   }
@@ -80,8 +82,8 @@ export function CreditApplicationForm() {
         },
         previousEmployments: []
       },
+      has_cobuyer: false,
       coBuyerInfo: {
-        has_cobuyer: false,
         relationship: '',
         clientInfo: {
           firstName: '',
@@ -134,13 +136,14 @@ export function CreditApplicationForm() {
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true)
+    const payload = parseSubmitData(data);
     try {
       const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       })
 
       const result = await response.json()
@@ -148,12 +151,12 @@ export function CreditApplicationForm() {
       if (result.success) {
         // Redirect to success page if enabled
         if (config.successPageEnabled) {
-          window.location.href = `${window.location.pathname}?success=true`
+          setShowSuccessPage(true);
         } else {
-          alert('Application submitted successfully!')
+          toast.success('Application submitted successfully!')
         }
       } else {
-        alert(result.message || 'Submission failed')
+        toast.error(result.message || 'Submission failed')
       }
     } catch (error) {
       console.error('Submission error:', error)
@@ -173,7 +176,7 @@ export function CreditApplicationForm() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto"
+        className="mx-auto"
       >
         <Card className="p-8 shadow-sm">
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -229,8 +232,10 @@ export function CreditApplicationForm() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <label className='flex space-x-3 gap-2 items-center'>
                   <input
+                    id="chkiagree"
                     type="checkbox"
                     required
+                    onChange={(e) => form.setValue('chkiagree', e.target.checked)}
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <span className='text-gray-900'>I accept the above terms.</span>
@@ -258,6 +263,7 @@ export function CreditApplicationForm() {
           </form>
         </Card>
       </motion.div>
+      <ToastContainer />
     </FormProvider>
   )
 }

@@ -72,7 +72,6 @@ export function useDataFetching() {
 
   const fetchAndPopulate = useCallback(async (params: FetchDataParams) => {
     const data = await fetchData(params)
-    console.log('data', data);
     return data
   }, [fetchData])
 

@@ -78,7 +78,6 @@ export interface PreviousEmployment {
 }
 
 export interface CoBuyerInfo {
-  has_cobuyer: boolean
   relationship: string
   clientInfo: ClientInfo
   residentialInfo: ResidentialInfo
@@ -130,6 +129,7 @@ export interface CreditAppState {
     employmentInfo: EmploymentInfo
     previousEmployments: PreviousEmployment[]
   }
+  has_cobuyer: boolean
   coBuyerInfo: CoBuyerInfo
   
   // UI state
@@ -139,11 +139,13 @@ export interface CreditAppState {
   
   // Data fetching state
   isDataLoading: boolean
+  showSuccessPage: boolean
   dataError: string | null
   fetchedData: FetchedFormData | null
   
   // Configuration
   config: {
+    id: string
     primaryColor: string
     showAgents: boolean
     twoYearEmployment: boolean
@@ -176,10 +178,10 @@ export interface CreditAppState {
   setErrors: (errors: Record<string, string[]>) => void
   clearErrors: () => void
   setConfig: (config: Partial<CreditAppState['config']>) => void
-  resetForm: () => void
   
   // Data fetching actions
   setDataLoading: (loading: boolean) => void
+  setShowSuccessPage: (show: boolean) => void
   setDataError: (error: string | null) => void
   setFetchedData: (data: FetchedFormData | null) => void
 }
@@ -235,8 +237,8 @@ const initialState = {
     },
     previousEmployments: []
   },
+  has_cobuyer: false,
   coBuyerInfo: {
-    has_cobuyer: false,
     relationship: '',
     clientInfo: {
       firstName: '',
@@ -285,6 +287,7 @@ const initialState = {
   
   // Data fetching state
   isDataLoading: false,
+  showSuccessPage: false,
   dataError: null,
   fetchedData: null,
   
@@ -345,11 +348,11 @@ export const useCreditAppStore = create<CreditAppState>()(
         set((state) => ({
           config: { ...state.config, ...config }
         })),
-      
-      resetForm: () => set(initialState),
 
       // Data fetching actions
       setDataLoading: (loading) => set({ isDataLoading: loading }),
+      
+      setShowSuccessPage: (show) => set({ showSuccessPage: show }),
       
       setDataError: (error) => set({ dataError: error }),
       

@@ -11,12 +11,13 @@ import { NotFound } from '@/components/NotFound'
 
 export default function Home() {
   const searchParams = useSearchParams()
-  const { config, setConfig } = useCreditAppStore()
+  const { config, setConfig, showSuccessPage } = useCreditAppStore()
   const { fetchAndPopulate, isDataLoading, dataError } = useDataFetching()
 
   useEffect(() => {
     // Parse URL parameters and set configuration
     const urlConfig = {
+      id: searchParams.get('id') || '',
       primaryColor: searchParams.get('primaryColor') || '#d8534e',
       showAgents: searchParams.get('showAgents') === 'true',
       twoYearEmployment: searchParams.get('two_year_employment') === 'true',
@@ -63,7 +64,7 @@ export default function Home() {
   }, [searchParams, fetchAndPopulate])
 
   // Check if we should show success page
-  const showSuccess = searchParams.get('success') === 'true' && config.successPageEnabled
+  const showSuccess = config.successPageEnabled && showSuccessPage
 
   if (showSuccess) {
     return <SuccessPage />
@@ -88,9 +89,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        <CreditApplicationForm />
-      </div>
+      <CreditApplicationForm />
     </div>
   )
 }

@@ -127,7 +127,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
             </div>
 
             <div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <Label htmlFor={`${employmentPath}.time_company_years`}>Years *</Label>
                   <Input
@@ -360,7 +360,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                 </div>
 
                 <div>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-2 gap-4">
                     <div>
                       <Label htmlFor={`${previousEmploymentsPath}.${index}.time_company_years`}>Years *</Label>
                       <Input
