@@ -2,9 +2,22 @@ import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { useCreditAppStore } from "./store";
 import moment from 'moment';
+import { toast } from "react-toastify";
+import { UseFormReturn } from "react-hook-form";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function getPreviousInfo(data: any, type: string) {
+  const prefix = type === 'buyer' ? 'prev_' : 'prev_co_';
+  if (data && data.length > 0) {
+    let items = data[0];
+    return Object.fromEntries(
+      Object.entries(items).map(([key, value]) => [`${prefix}${key}`, value])
+    );
+  }
+  return null;
 }
 
 export function getVehicleInfo(iId: string) {
@@ -45,6 +58,10 @@ export function parseSubmitData(data: any) {
   const fetchedData = useCreditAppStore.getState().fetchedData;
 
   const vehicleDetail = getVehicleInfo(data.vehicleInfo.vehicle_title);
+  const prevResidence = getPreviousInfo(data.buyerInfo.previousResidences, 'buyer');
+  const prevEmployment = getPreviousInfo(data.buyerInfo.previousEmployments, 'buyer');
+  const coPrevResidence = getPreviousInfo(data.coBuyerInfo.previousResidences, 'cobuyer');
+  const coPrevEmployment = getPreviousInfo(data.coBuyerInfo.previousEmployments, 'cobuyer');
   const payload = {
     id: fetchedData?.token,
     ...data.vehicleInfo,
@@ -52,6 +69,8 @@ export function parseSubmitData(data: any) {
     agent_id: data.vehicleInfo.sales_agent == 'none' ? '' : data.vehicleInfo.sales_agent,
     agent_name: data.vehicleInfo.sales_agent == 'none' ? '' : fetchedData?.financing?.agents?.find((agent: any) => agent.id === data.vehicleInfo.sales_agent)?.fullName,
     ...data.buyerInfo.clientInfo,
+    fullname: data.buyerInfo.clientInfo.firstName + ' ' + data.buyerInfo.clientInfo.lastName,
+    fullcity: data.buyerInfo.clientInfo.city + ' ' + data.buyerInfo.clientInfo.state + ' ' + data.buyerInfo.clientInfo.zip + ' United States',
     dob_year: moment(data.buyerInfo.clientInfo.dob).year(),
     dob_month: moment(data.buyerInfo.clientInfo.dob).month(),
     dob_day: moment(data.buyerInfo.clientInfo.dob).day(),
@@ -63,25 +82,95 @@ export function parseSubmitData(data: any) {
     time_residence: moment(data.buyerInfo.residentialInfo.res_years).year() + ' Years, ' + moment(data.buyerInfo.residentialInfo.res_months).month() + ' Months',
     ...data.buyerInfo.employmentInfo,
     time_employment: moment(data.buyerInfo.employmentInfo.time_company_years).year() + ' Years, ' + moment(data.buyerInfo.employmentInfo.time_company_months).month() + ' Months',
-    ...data.buyerInfo.previousEmployments,
-    ...data.buyerInfo.previousResidences,
-    joint_application: data.has_cobuyer ? 'yes' : 'no'
+    ...prevEmployment,
+    ...prevResidence,
+    joint_application: data.has_cobuyer ? 'yes' : 'no',
+    ...(data.has_cobuyer && {
+      co_fullname: data.coBuyerInfo.clientInfo.firstName + ' ' + data.coBuyerInfo.clientInfo.lastName,
+      co_fullcity: data.coBuyerInfo.clientInfo.city + ' ' + data.coBuyerInfo.clientInfo.state + ' ' + data.coBuyerInfo.clientInfo.zip + ' United States',
+      co_country: 'United States',
+      co_country_employment: 'United States',
+      co_res_years: data.coBuyerInfo.residentialInfo.res_years,
+      co_res_months: data.coBuyerInfo.residentialInfo.res_months,
+      co_time_company_years: data.coBuyerInfo.employmentInfo.time_company_years,
+      co_time_company_months: data.coBuyerInfo.employmentInfo.time_company_months,
+      co_dob_year: moment(data.coBuyerInfo.clientInfo.dob).year(),
+      co_dob_month: moment(data.coBuyerInfo.clientInfo.dob).month(),
+      co_dob_day: moment(data.coBuyerInfo.clientInfo.dob).day(),
+      co_dob_format: data.coBuyerInfo.clientInfo.dob,
+      co_dob: moment(data.coBuyerInfo.clientInfo.dob).format('YYYY-MM-DD'),
+      ...coPrevResidence,
+      ...coPrevEmployment
+    })
   }
-
-  // ...(data.has_cobuyer && {
-  //   ...data.coBuyerInfo.relationship,
-  //   ...data.coBuyerInfo.clientInfo,
-  //   ...data.coBuyerInfo.residentialInfo,
-  //   ...data.coBuyerInfo.employmentInfo,
-  //   ...data.coBuyerInfo.previousEmployments,
-  //   ...data.coBuyerInfo.previousResidences,
-  //   ...data.coBuyerInfo.clientInfo,
-  //   ...data.coBuyerInfo.residentialInfo,
-  //   ...data.coBuyerInfo.employmentInfo,
-  //   ...data.coBuyerInfo.previousEmployments,
-  //   ...data.coBuyerInfo.previousResidences,
-  // })
 
   console.log(payload);
   return payload;
+}
+
+export async function getZipCode(
+  zip: string,
+  type: string, 
+  form: UseFormReturn<any>,
+  onMultipleResults?: (items: any[], zip: string, type: string) => void
+) {
+  const fetchedData = useCreditAppStore.getState().fetchedData;
+  const payload = {
+    id: fetchedData?.token,
+    zip: zip
+  }
+
+  try {
+    const response = await fetch('/api/zipcode', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    const result = await response.json()
+    if (result.success) {
+      // populate the city/state or show decoded zipcode list
+      if (result.content.items.length == 1) {
+        const item = result.content.items[0];
+        if (type.toLowerCase().includes('employment')) {
+          form.setValue(`${type}.employer_city`, item.city);
+          form.setValue(`${type}.employer_state`, item.state);
+        } else {
+          form.setValue(`${type}.city`, item.city);
+          form.setValue(`${type}.state`, item.state);
+        }
+      } else if (result.content.items.length > 1) {
+        if (onMultipleResults) {
+          onMultipleResults(result.content.items, zip, type);
+        } else {
+          toast.info(`Multiple cities found for zip ${zip}. Please select from the list.`);
+          const item = result.content.items[0];
+          if (type.toLowerCase().includes('employment')) {
+            form.setValue(`${type}.employer_city`, item.city);
+            form.setValue(`${type}.employer_state`, item.state);
+          } else {
+            form.setValue(`${type}.city`, item.city);
+            form.setValue(`${type}.state`, item.state);
+          }
+        }
+      } else {
+        // No matches found
+        if (type.toLowerCase().includes('employment')) {
+          form.setValue(`${type}.employer_city`, '');
+          form.setValue(`${type}.employer_state`, '');
+        } else {
+          form.setValue(`${type}.city`, '');
+          form.setValue(`${type}.state`, '');
+        }
+        toast.warning(`No city found for zip code : ${zip}`);
+      }
+    } else {
+      toast.error(result.msg || 'Failed to decode zipcode. Please try again.')
+    }
+  } catch (error) {
+    toast.error('Failed to decode zipcode. Please try again.')
+  } finally {
+  }
 }

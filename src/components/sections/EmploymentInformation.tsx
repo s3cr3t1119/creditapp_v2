@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -11,6 +12,8 @@ import { useCreditAppStore } from '@/lib/store'
 import { employmentTypes } from '@/lib/schemas'
 import { getFieldError } from '@/lib/formHelpers'
 import { Plus, RotateCcw, Trash2 } from 'lucide-react'
+import { getZipCode } from '@/lib/utils'
+import { ZipCodeSelectionModal } from '../ZipCodeSelectionModal'
 
 interface EmploymentInformationProps {
   section: 'buyer' | 'cobuyer'
@@ -20,11 +23,31 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
   const { form } = useFormContext()
   const { config } = useCreditAppStore()
 
+  // Modal state for zip code selection
+  const [isZipModalOpen, setIsZipModalOpen] = useState(false)
+  const [zipCodeItems, setZipCodeItems] = useState<any[]>([])
+  const [currentZipCode, setCurrentZipCode] = useState('')
+  const [currentType, setCurrentType] = useState('')
+
   const basePath = section === 'buyer' ? 'buyerInfo' : 'coBuyerInfo'
   const employmentPath = `${basePath}.employmentInfo`
   const previousEmploymentsPath = `${basePath}.previousEmployments`
 
   const previousEmployments = form.watch(previousEmploymentsPath as any) || []
+
+  // Handle multiple zip code results
+  const handleMultipleZipResults = (items: any[], zip: string, type: string) => {
+    setZipCodeItems(items)
+    setCurrentZipCode(zip)
+    setCurrentType(type)
+    setIsZipModalOpen(true)
+  }
+
+  // Handle zip code selection from modal
+  const handleZipCodeSelection = (item: any) => {
+    form.setValue(`${currentType}.employer_city`, item.city)
+    form.setValue(`${currentType}.employer_state`, item.state)
+  }
 
   const addPreviousEmployment = () => {
     // Only add if no previous employment exists (limit to one)
@@ -223,12 +246,20 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                       {...form.register(`${employmentPath}.employer_zip`)}
                       placeholder="Zip Code"
                       className="pr-10"
+                      // onChange={() => {
+                      //   const zip = form.watch(`${employmentPath}.employer_zip`);
+                      //   if (zip && zip.length === 5) {
+                      //     getZipCode(zip, employmentPath, form, handleMultipleZipResults)
+                      //   }
+                      // }}
                     />
                     <button
                       type="button"
                       onClick={() => {
-                        // Add refresh functionality here if needed
-                        console.log('Refresh zip code lookup')
+                        const zip = form.watch(`${employmentPath}.employer_zip`);
+                        if (zip && zip.length === 5) {
+                          getZipCode(zip, employmentPath, form, handleMultipleZipResults)
+                        }
                       }}
                       className="absolute right-0 top-0 h-full px-3 bg-gray-100 hover:bg-gray-200 rounded-r-sm border border-l-0 border-gray-300 flex items-center justify-center transition-colors"
                     >
@@ -433,12 +464,20 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                           {...form.register(`${previousEmploymentsPath}.${index}.employer_zip`)}
                           placeholder="Zip code"
                           className="pr-10"
+                          // onChange={() => {
+                          //   const zip = form.watch(`${previousEmploymentsPath}.${index}.employer_zip`);
+                          //   if (zip && zip.length === 5) {
+                          //     getZipCode(zip, `${previousEmploymentsPath}.${index}`, form, handleMultipleZipResults)
+                          //   }
+                          // }}
                         />
                         <button
                           type="button"
                           onClick={() => {
-                            // Add refresh functionality here if needed
-                            console.log('Refresh zip code lookup')
+                            const zip = form.watch(`${previousEmploymentsPath}.${index}.employer_zip`);
+                            if (zip && zip.length === 5) {
+                              getZipCode(zip, `${previousEmploymentsPath}.${index}`, form, handleMultipleZipResults)
+                            }
                           }}
                           className="absolute right-0 top-0 h-full px-3 bg-gray-100 hover:bg-gray-200 rounded-r-sm border border-l-0 border-gray-300 flex items-center justify-center transition-colors"
                         >
@@ -494,6 +533,15 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
           ))}
         </CardContent>
       </Card>
+
+      {/* Zip Code Selection Modal */}
+      <ZipCodeSelectionModal
+        isOpen={isZipModalOpen}
+        onClose={() => setIsZipModalOpen(false)}
+        onSelect={handleZipCodeSelection}
+        items={zipCodeItems}
+        zipCode={currentZipCode}
+      />
     </motion.div>
   )
 }

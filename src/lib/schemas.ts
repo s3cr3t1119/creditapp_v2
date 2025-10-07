@@ -39,7 +39,7 @@ export const vehicleInfoSchema = z.object({
   vehicle_title: z.string().min(1, 'Vehicle selection is required'),
   sales_agent: z.string().optional(),
   down_payment: z.number().min(0, 'Down payment is required'),
-  trade_year: z.string().optional(),
+  trade_year: z.number().optional(),
   trade_make: z.string().optional(),
   trade_model: z.string().optional()
 })
@@ -78,7 +78,7 @@ export const employmentInfoSchema = z.object({
   time_company_years: z.string().min(1, 'Years employed is required'),
   time_company_months: z.string().default('0'),
   type_employment: z.string().min(1, 'Employment type is required'),
-  aditional_income: z.string().optional(),
+  aditional_income: z.number().optional(),
   source_addl: z.string().optional(),
   employer_street: z.string().min(1, 'Employer street address is required'),
   employer_zip: z.string().min(1, 'Employer zip code is required').regex(zipCodeRegex, 'Invalid zip code format'),

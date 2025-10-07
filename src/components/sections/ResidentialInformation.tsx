@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -11,6 +12,8 @@ import { useCreditAppStore } from '@/lib/store'
 import { residenceTypes } from '@/lib/schemas'
 import { getFieldError } from '@/lib/formHelpers'
 import { Plus, RotateCcw, Trash2 } from 'lucide-react'
+import { getZipCode } from '@/lib/utils'
+import { ZipCodeSelectionModal } from '../ZipCodeSelectionModal'
 
 interface ResidentialInformationProps {
   section: 'buyer' | 'cobuyer'
@@ -20,11 +23,39 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
   const { form } = useFormContext()
   const { config } = useCreditAppStore()
 
+  // Modal state for zip code selection
+  const [isZipModalOpen, setIsZipModalOpen] = useState(false)
+  const [zipCodeItems, setZipCodeItems] = useState<any[]>([])
+  const [currentZipCode, setCurrentZipCode] = useState('')
+  const [currentType, setCurrentType] = useState('')
+
   const basePath = section === 'buyer' ? 'buyerInfo' : 'coBuyerInfo'
   const residentialPath = `${basePath}.residentialInfo`
   const previousResidencesPath = `${basePath}.previousResidences`
 
   const previousResidences = form.watch(previousResidencesPath as any) || []
+
+  // Handle zip code lookup
+  const handleZipCodeLookup = () => {
+    const zip = form.watch(`${previousResidencesPath}.0.zip`)
+    if (zip && zip.length === 5) {
+      getZipCode(zip, `${previousResidencesPath}.0`, form, handleMultipleZipResults)
+    }
+  }
+
+  // Handle multiple zip code results
+  const handleMultipleZipResults = (items: any[], zip: string, type: string) => {
+    setZipCodeItems(items)
+    setCurrentZipCode(zip)
+    setCurrentType(type)
+    setIsZipModalOpen(true)
+  }
+
+  // Handle zip code selection from modal
+  const handleZipCodeSelection = (item: any) => {
+    form.setValue(`${currentType}.city`, item.city)
+    form.setValue(`${currentType}.state`, item.state)
+  }
 
   const addPreviousResidence = () => {
     if (previousResidences.length == 0) {
@@ -181,13 +212,11 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                           {...form.register(`${previousResidencesPath}.${index}.zip`)}
                           placeholder="Zip Code"
                           className='pr-10'
+                          // onChange={handleZipCodeLookup}
                         />
                         <button
                           type="button"
-                          onClick={() => {
-                            // Add refresh functionality here if needed
-                            console.log('Refresh zip code lookup')
-                          }}
+                          onClick={handleZipCodeLookup}
                           className="absolute right-0 top-0 h-full px-3 bg-gray-100 hover:bg-gray-200 rounded-r-sm border border-l-0 border-gray-300 flex items-center justify-center transition-colors"
                         >
                           <RotateCcw className="h-4 w-4 text-gray-600" />
@@ -289,6 +318,15 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
           </CardContent>
         </Card>
       )}
+
+      {/* Zip Code Selection Modal */}
+      <ZipCodeSelectionModal
+        isOpen={isZipModalOpen}
+        onClose={() => setIsZipModalOpen(false)}
+        onSelect={handleZipCodeSelection}
+        items={zipCodeItems}
+        zipCode={currentZipCode}
+      />
     </motion.div>
   )
 }
