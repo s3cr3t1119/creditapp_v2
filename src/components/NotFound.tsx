@@ -13,7 +13,7 @@ export function NotFound() {
       style={{ backgroundColor: '#f7f7f7' }}
     >
       <div className="text-center max-w-md mx-auto p-6">
-        <Image src="/img/not-found.png" alt="Data not found" width={100} height={100} />
+        <Image src="/img/not-found.png" alt="Data not found" width={400} height={300} />
       </div>
     </motion.div>
   )

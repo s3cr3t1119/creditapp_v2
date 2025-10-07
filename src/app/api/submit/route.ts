@@ -4,6 +4,22 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
 
+    const recaptcha = body.recaptcha;
+    delete body.recaptcha;
+
+    const recaptchaResponse = await fetch(`https://www.google.com/recaptcha/api/siteverify`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptcha}`
+    });
+
+    const recaptchaData = await recaptchaResponse.json();
+    if (!recaptchaData.success || recaptchaData.score < 0.5) {
+      return NextResponse.json({ success: false, message: 'reCAPTCHA verification failed' }, { status: 400 });
+    }
+
     body['chkiagree'] = true;
     const formData = {
       item: {

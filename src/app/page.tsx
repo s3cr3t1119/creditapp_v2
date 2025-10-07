@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 import { useCreditAppStore } from '@/lib/store'
 import { configSchema } from '@/lib/schemas'
 import { CreditApplicationForm } from '@/components/CreditApplicationForm'
@@ -89,7 +90,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <CreditApplicationForm />
+            <GoogleReCaptchaProvider
+        reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+        scriptProps={{
+          async: false,
+          defer: false,
+          appendTo: 'head',
+          nonce: undefined,
+        }}
+      >
+        <CreditApplicationForm />
+      </GoogleReCaptchaProvider>
     </div>
   )
 }

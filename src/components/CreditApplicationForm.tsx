@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { motion } from 'framer-motion'
 import { ToastContainer, toast } from 'react-toastify';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
@@ -19,6 +20,7 @@ import { FormProvider } from './FormProvider'
 import { parseSubmitData } from '@/lib/utils'
 
 export function CreditApplicationForm() {
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { activeTab, setActiveTab, config, setShowSuccessPage } = useCreditAppStore()
 
@@ -136,8 +138,23 @@ export function CreditApplicationForm() {
 
   const onSubmit = async (data: any) => {
     setIsSubmitting(true)
-    const payload = parseSubmitData(data);
+
+    if (!executeRecaptcha) {
+      toast.warning('reCAPTCHA not loaded yet');
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
+      const token = await executeRecaptcha('submit');
+      if (!token) {
+        toast.warning('reCAPTCHA verification failed');
+        setIsSubmitting(false);
+        return;
+      }
+      const payload = parseSubmitData(data);
+      payload.recaptcha = token;
+
       const response = await fetch('/api/submit', {
         method: 'POST',
         headers: {
