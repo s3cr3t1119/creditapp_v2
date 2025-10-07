@@ -159,7 +159,7 @@ export function createDynamicCreditApplicationSchema(config: any, hasCoBuyer: bo
   }
 
   // Base residential info schema
-  let residentialInfo = z.object({
+  const residentialInfo = z.object({
     res_years: z.string().min(1, 'Years is required'),
     res_months: z.string().default('0'),
     res_monthly_payment: z.string().optional(),
@@ -167,7 +167,7 @@ export function createDynamicCreditApplicationSchema(config: any, hasCoBuyer: bo
   })
 
   // Base vehicle info schema
-  let vehicleInfo = z.object({
+  const vehicleInfo = z.object({
     vehicle_title: z.string().min(1, 'Vehicle selection is required'),
     down_payment: z.string().min(1, 'Down payment is required'),
     sales_agent: z.string().optional(),

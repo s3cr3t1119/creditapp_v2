@@ -2,7 +2,6 @@
 
 import { createContext, useContext, ReactNode } from 'react'
 import { UseFormReturn } from 'react-hook-form'
-import { CreditApplication } from '@/lib/schemas'
 
 interface FormContextType {
   form: UseFormReturn<any>

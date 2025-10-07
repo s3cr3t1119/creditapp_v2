@@ -7,7 +7,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useFormContext } from '@/components/FormProvider'
-import { useCreditAppStore } from '@/lib/store'
+import { ZipCodeInfo } from '@/lib/store'
 import { stateList } from '@/lib/schemas'
 import { getFieldError } from '@/lib/formHelpers'
 import { RotateCcw } from 'lucide-react'
@@ -20,11 +20,10 @@ interface ClientInformationProps {
 
 export function ClientInformation({ section }: ClientInformationProps) {
   const { form } = useFormContext()
-  const { config } = useCreditAppStore()
   
   // Modal state for zip code selection
   const [isZipModalOpen, setIsZipModalOpen] = useState(false)
-  const [zipCodeItems, setZipCodeItems] = useState<any[]>([])
+  const [zipCodeItems, setZipCodeItems] = useState<ZipCodeInfo[]>([])
   const [currentZipCode, setCurrentZipCode] = useState('')
   const [currentType, setCurrentType] = useState('')
 
@@ -39,7 +38,7 @@ export function ClientInformation({ section }: ClientInformationProps) {
   }
 
   // Handle multiple zip code results
-  const handleMultipleZipResults = (items: any[], zip: string, type: string) => {
+  const handleMultipleZipResults = (items: ZipCodeInfo[], zip: string, type: string) => {
     setZipCodeItems(items)
     setCurrentZipCode(zip)
     setCurrentType(type)
@@ -47,7 +46,7 @@ export function ClientInformation({ section }: ClientInformationProps) {
   }
 
   // Handle zip code selection from modal
-  const handleZipCodeSelection = (item: any) => {
+  const handleZipCodeSelection = (item: ZipCodeInfo) => {
     form.setValue(`${currentType}.city`, item.city)
     form.setValue(`${currentType}.state`, item.state)
   }

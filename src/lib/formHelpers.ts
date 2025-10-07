@@ -1,4 +1,4 @@
-import { FieldErrors, FieldPath, FieldValues } from 'react-hook-form'
+import { FieldErrors, FieldValues } from 'react-hook-form'
 
 /**
  * Helper function to get error message for a field path

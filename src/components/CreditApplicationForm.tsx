@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useCreditAppStore } from '@/lib/store'
-import { creditApplicationSchema, createDynamicCreditApplicationSchema, type CreditApplication } from '@/lib/schemas'
+import { createDynamicCreditApplicationSchema } from '@/lib/schemas'
 import { VehicleInformation } from './sections/VehicleInformation'
 import { ClientInformation } from './sections/ClientInformation'
 import { ResidentialInformation } from './sections/ResidentialInformation'
@@ -160,7 +160,7 @@ export function CreditApplicationForm() {
       }
     } catch (error) {
       console.error('Submission error:', error)
-      alert('There was an error submitting your application. Please try again.')
+      toast.error('There was an error submitting your application. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
@@ -216,14 +216,14 @@ export function CreditApplicationForm() {
               <div className="mb-6">
                 <label className="flex items-start space-x-3">
                   <span className="text-sm text-gray-900">
-                    By clicking "Accept & Submit", I, the undersigned, (a) for the purpose of securing credit, 
+                    {`By clicking "Accept & Submit", I, the undersigned, (a) for the purpose of securing credit, 
                     certify the below representations to be correct; (b) authorize financial institutions, as they 
                     consider necessary and appropriate, to obtain consumer credit reports on me periodically and 
                     to gather employment history, and (c) understand that we, or any financial institution to whom 
                     this application is submitted, will retain this application whether or not it is approved, and 
                     that it is the applicant's responsibility to notify the creditor of any change of name, address, 
                     or employment. We and any financial institution to whom this application is submitted, may share 
-                    certain non-public personal information about you with your authorization or as provided by law.
+                    certain non-public personal information about you with your authorization or as provided by law.`}
                   </span>
                 </label>
               </div>

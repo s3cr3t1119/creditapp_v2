@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { useFormContext } from '@/components/FormProvider'
-import { useCreditAppStore } from '@/lib/store'
+import { useCreditAppStore, ZipCodeInfo } from '@/lib/store'
 import { employmentTypes } from '@/lib/schemas'
 import { getFieldError } from '@/lib/formHelpers'
 import { Plus, RotateCcw, Trash2 } from 'lucide-react'
@@ -25,7 +25,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
 
   // Modal state for zip code selection
   const [isZipModalOpen, setIsZipModalOpen] = useState(false)
-  const [zipCodeItems, setZipCodeItems] = useState<any[]>([])
+  const [zipCodeItems, setZipCodeItems] = useState<ZipCodeInfo[]>([])
   const [currentZipCode, setCurrentZipCode] = useState('')
   const [currentType, setCurrentType] = useState('')
 
@@ -36,7 +36,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
   const previousEmployments = form.watch(previousEmploymentsPath as any) || []
 
   // Handle multiple zip code results
-  const handleMultipleZipResults = (items: any[], zip: string, type: string) => {
+  const handleMultipleZipResults = (items: ZipCodeInfo[], zip: string, type: string) => {
     setZipCodeItems(items)
     setCurrentZipCode(zip)
     setCurrentType(type)
@@ -44,7 +44,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
   }
 
   // Handle zip code selection from modal
-  const handleZipCodeSelection = (item: any) => {
+  const handleZipCodeSelection = (item: ZipCodeInfo) => {
     form.setValue(`${currentType}.employer_city`, item.city)
     form.setValue(`${currentType}.employer_state`, item.state)
   }
@@ -71,7 +71,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
     }
   }
 
-  const removePreviousEmployment = (index: number) => {
+  const removePreviousEmployment = () => {
     form.setValue(previousEmploymentsPath as any, [])
   }
 
@@ -523,7 +523,7 @@ export function EmploymentInformation({ section }: EmploymentInformationProps) {
                   type="button"
                   variant="outline"
                   size="sm"
-                  onClick={() => removePreviousEmployment(index)}
+                  onClick={() => removePreviousEmployment()}
                   className="text-red-600 hover:text-red-700"
                 >
                   <Trash2 className="h-4 w-4" /> Remove

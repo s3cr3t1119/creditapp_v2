@@ -119,6 +119,25 @@ export interface FetchedFormData {
   token: string | null
 }
 
+export interface ZipCodeInfo {
+  city: string
+  county: string
+  state: string | null | undefined
+}
+
+export interface CreditAppInfo {
+  vehicleInfo: VehicleInfo
+  buyerInfo: {
+    clientInfo: ClientInfo
+    residentialInfo: ResidentialInfo
+    previousResidences: PreviousResidence[]
+    employmentInfo: EmploymentInfo
+    previousEmployments: PreviousEmployment[]
+  }
+  has_cobuyer: boolean
+  coBuyerInfo: CoBuyerInfo
+}
+
 export interface CreditAppState {
   // Form data
   vehicleInfo: VehicleInfo
@@ -318,7 +337,7 @@ const initialState = {
 
 export const useCreditAppStore = create<CreditAppState>()(
   devtools(
-    (set, get) => ({
+    (set) => ({
       ...initialState,
       
       setActiveTab: (tab) => set({ activeTab: tab }),

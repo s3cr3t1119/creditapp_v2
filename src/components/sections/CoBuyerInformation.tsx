@@ -1,12 +1,10 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
+import { Card, CardContent } from '@/components/ui/card'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { useFormContext } from '@/components/FormProvider'
-import { useCreditAppStore } from '@/lib/store'
 import { relationshipTypes } from '@/lib/schemas'
 import { ClientInformation } from './ClientInformation'
 import { ResidentialInformation } from './ResidentialInformation'
@@ -15,7 +13,6 @@ import { getFieldError } from '@/lib/formHelpers'
 
 export function CoBuyerInformation() {
   const { form } = useFormContext()
-  const { config } = useCreditAppStore()
 
   const hasCoBuyer = form.watch('has_cobuyer')
 

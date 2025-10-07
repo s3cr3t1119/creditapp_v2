@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 export function NotFound() {
@@ -12,7 +13,7 @@ export function NotFound() {
       style={{ backgroundColor: '#f7f7f7' }}
     >
       <div className="text-center max-w-md mx-auto p-6">
-        <img src="/img/not-found.png" alt="Data not found" />
+        <Image src="/img/not-found.png" alt="Data not found" width={100} height={100} />
       </div>
     </motion.div>
   )

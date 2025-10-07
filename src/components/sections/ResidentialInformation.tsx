@@ -8,7 +8,7 @@ import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Button } from '@/components/ui/button'
 import { useFormContext } from '@/components/FormProvider'
-import { useCreditAppStore } from '@/lib/store'
+import { ZipCodeInfo } from '@/lib/store'
 import { residenceTypes } from '@/lib/schemas'
 import { getFieldError } from '@/lib/formHelpers'
 import { Plus, RotateCcw, Trash2 } from 'lucide-react'
@@ -21,11 +21,10 @@ interface ResidentialInformationProps {
 
 export function ResidentialInformation({ section }: ResidentialInformationProps) {
   const { form } = useFormContext()
-  const { config } = useCreditAppStore()
 
   // Modal state for zip code selection
   const [isZipModalOpen, setIsZipModalOpen] = useState(false)
-  const [zipCodeItems, setZipCodeItems] = useState<any[]>([])
+  const [zipCodeItems, setZipCodeItems] = useState<ZipCodeInfo[]>([])
   const [currentZipCode, setCurrentZipCode] = useState('')
   const [currentType, setCurrentType] = useState('')
 
@@ -44,7 +43,7 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
   }
 
   // Handle multiple zip code results
-  const handleMultipleZipResults = (items: any[], zip: string, type: string) => {
+  const handleMultipleZipResults = (items: ZipCodeInfo[], zip: string, type: string) => {
     setZipCodeItems(items)
     setCurrentZipCode(zip)
     setCurrentType(type)
@@ -52,7 +51,7 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
   }
 
   // Handle zip code selection from modal
-  const handleZipCodeSelection = (item: any) => {
+  const handleZipCodeSelection = (item: ZipCodeInfo) => {
     form.setValue(`${currentType}.city`, item.city)
     form.setValue(`${currentType}.state`, item.state)
   }
@@ -75,7 +74,7 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
     }
   }
 
-  const removePreviousResidence = (index: number) => {
+  const removePreviousResidence = () => {
     form.setValue(previousResidencesPath as any, [])
   }
 
@@ -307,7 +306,7 @@ export function ResidentialInformation({ section }: ResidentialInformationProps)
                     type="button"
                     variant="outline"
                     size="sm"
-                    onClick={() => removePreviousResidence(index)}
+                    onClick={() => removePreviousResidence()}
                     className="text-red-600 hover:text-red-700"
                   >
                     <Trash2 className="h-4 w-4" /> Remove

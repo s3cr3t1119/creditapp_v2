@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { useCreditAppStore } from "./store";
+import { AgentInfo, InventoryInfo, PreviousEmployment, PreviousResidence, useCreditAppStore, ZipCodeInfo } from "./store";
 import moment from 'moment';
 import { toast } from "react-toastify";
 import { UseFormReturn } from "react-hook-form";
@@ -9,10 +9,10 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function getPreviousInfo(data: any, type: string) {
+export function getPreviousInfo(data: PreviousResidence[] | PreviousEmployment[] , type: string) {
   const prefix = type === 'buyer' ? 'prev_' : 'prev_co_';
   if (data && data.length > 0) {
-    let items = data[0];
+    const items = data[0];
     return Object.fromEntries(
       Object.entries(items).map(([key, value]) => [`${prefix}${key}`, value])
     );
@@ -33,7 +33,7 @@ export function getVehicleInfo(iId: string) {
     };
   }
 
-  let inventory = fetchedData.inventory.find((inventory: any) => inventory.id === iId);
+  const inventory = fetchedData.inventory.find((inventory: InventoryInfo) => inventory.id === iId);
   if (!inventory) {
     return {
       vehicle_id: '',
@@ -67,7 +67,7 @@ export function parseSubmitData(data: any) {
     ...data.vehicleInfo,
     ...vehicleDetail,
     agent_id: data.vehicleInfo.sales_agent == 'none' ? '' : data.vehicleInfo.sales_agent,
-    agent_name: data.vehicleInfo.sales_agent == 'none' ? '' : fetchedData?.financing?.agents?.find((agent: any) => agent.id === data.vehicleInfo.sales_agent)?.fullName,
+    agent_name: data.vehicleInfo.sales_agent == 'none' ? '' : fetchedData?.financing?.agents?.find((agent: AgentInfo) => agent.id === data.vehicleInfo.sales_agent)?.fullName,
     ...data.buyerInfo.clientInfo,
     fullname: data.buyerInfo.clientInfo.firstName + ' ' + data.buyerInfo.clientInfo.lastName,
     fullcity: data.buyerInfo.clientInfo.city + ' ' + data.buyerInfo.clientInfo.state + ' ' + data.buyerInfo.clientInfo.zip + ' United States',
@@ -112,7 +112,7 @@ export async function getZipCode(
   zip: string,
   type: string, 
   form: UseFormReturn<any>,
-  onMultipleResults?: (items: any[], zip: string, type: string) => void
+  onMultipleResults?: (items: ZipCodeInfo[], zip: string, type: string) => void
 ) {
   const fetchedData = useCreditAppStore.getState().fetchedData;
   const payload = {
@@ -170,6 +170,7 @@ export async function getZipCode(
       toast.error(result.msg || 'Failed to decode zipcode. Please try again.')
     }
   } catch (error) {
+    console.error('Error decoding zipcode:', error);
     toast.error('Failed to decode zipcode. Please try again.')
   } finally {
   }

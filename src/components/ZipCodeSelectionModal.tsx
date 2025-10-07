@@ -5,18 +5,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Button } from '@/components/ui/button'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Label } from '@/components/ui/label'
-
-interface ZipCodeItem {
-  city: string
-  state: string
-  county?: string
-}
+import { ZipCodeInfo } from '@/lib/store'
 
 interface ZipCodeSelectionModalProps {
   isOpen: boolean
   onClose: () => void
-  onSelect: (item: ZipCodeItem) => void
-  items: ZipCodeItem[]
+  onSelect: (item: ZipCodeInfo) => void
+  items: ZipCodeInfo[]
   zipCode: string
 }
 
@@ -27,7 +22,7 @@ export function ZipCodeSelectionModal({
   items, 
   zipCode 
 }: ZipCodeSelectionModalProps) {
-  const [selectedItem, setSelectedItem] = useState<ZipCodeItem | null>(null)
+  const [selectedItem, setSelectedItem] = useState<ZipCodeInfo | null>(null)
 
   const handleSelect = () => {
     if (selectedItem) {
